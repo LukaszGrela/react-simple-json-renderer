@@ -1,2 +1,3 @@
-export const classnames = (...classNames: (string | undefined | boolean)[]) =>
+export type TClassNamesArg = string | undefined | boolean;
+export const classnames = (...classNames: TClassNamesArg[]) =>
   classNames.filter((name) => !!name).join(' ');
