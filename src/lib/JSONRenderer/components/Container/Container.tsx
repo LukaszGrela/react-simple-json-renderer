@@ -1,6 +1,6 @@
 import { FC, useRef, useState, forwardRef, useCallback } from 'react';
 import { classnames } from '../../utils/classnames';
-import { useJSONRendererContextActions, useJSONRendererContextConfig } from '../../context';
+import { useJSONRendererContextConfig } from '../../context';
 import { useResizeObserver } from '../../utils/useResizeObserver';
 import { IProps, IWrapperProps } from './types';
 import { Button } from '../Button';
@@ -10,8 +10,10 @@ import { TDataType } from '~/lib/types';
 import { Label } from '../Label';
 import { AddNewItem } from '../AddNewItem';
 import { RemoveButton } from '../Toolbox/RemoveButton';
+import { AddNewField } from '../AddNewField';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
+  const [isCollapsed, setCollapsed] = useState(false);
   const [narrow, setNarrow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const callback = (entries: ResizeObserverEntry[]) => {
@@ -20,29 +22,38 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
   };
   useResizeObserver(ref, callback);
 
+  const [inlineEditing, setInlineEditing] = useState(false);
+
   const [selectedType, setSelectedType] = useState<TDataType>('string');
 
   const title = `Add New ${treeDescriptor.type === 'array' ? 'Item' : 'Field'}`;
 
-  const { addNode } = useJSONRendererContextActions();
-
-  const handleNewItem = useCallback(() => {
-    console.log('Add to:', treeDescriptor, selectedType);
-    addNode(treeDescriptor, selectedType, 'field');
-  }, [addNode, treeDescriptor, selectedType]);
+  const handleInlineEditing = useCallback(() => {
+    setInlineEditing(true);
+  }, []);
 
   const handleTypeChanged = useCallback((type: TDataType) => {
     setSelectedType(type);
   }, []);
+
+  const handleCancelAddingNewField = useCallback(() => {
+    setInlineEditing(false);
+  }, []);
+
+  const handleWrapperCollapsed = useCallback((collapsed: boolean): void => {
+    setCollapsed(collapsed);
+  }, []);
+
   return (
     <ContainerWrapper
+      onCollapse={handleWrapperCollapsed}
       ref={ref}
       className={narrow && 'narrow'}
       type={type}
       treeDescriptor={treeDescriptor}
       toolbox={
         <Toolbox>
-          {treeDescriptor.children && (
+          {!isCollapsed && treeDescriptor.children && (
             <>
               <TypeSelector
                 id={treeDescriptor.path}
@@ -52,7 +63,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
               <Button
                 className='positive'
                 type='button'
-                onClick={handleNewItem}
+                onClick={handleInlineEditing}
                 title={title}
                 icon={<>&#43;</>}
               />
@@ -68,14 +79,27 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
       {!treeDescriptor.children && (
         <AddNewItem treeDescriptor={{ ...treeDescriptor, level: treeDescriptor.level + 1 }} />
       )}
+      {treeDescriptor.children && inlineEditing && (
+        <AddNewField
+          initialFieldName='field'
+          newType={selectedType}
+          treeDescriptor={{ ...treeDescriptor, level: treeDescriptor.level + 1 }}
+          cancel={handleCancelAddingNewField}
+        />
+      )}
     </ContainerWrapper>
   );
 };
 
 export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
-  ({ type, treeDescriptor, children, className, toolbox }, ref): JSX.Element => {
+  ({ type, treeDescriptor, children, className, toolbox, onCollapse }, ref): JSX.Element => {
     const { collapsible } = useJSONRendererContextConfig();
     const [collapsed, setCollapsed] = useState(false);
+    const toggleCollapse = useCallback(() => {
+      setCollapsed((state) => !state);
+      onCollapse?.(!collapsed);
+    }, [collapsed, onCollapse]);
+
     return (
       <div
         ref={ref}
@@ -94,11 +118,9 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
                 <Button
                   className='collapse'
                   type='button'
-                  onClick={() => {
-                    setCollapsed((state) => !state);
-                  }}
+                  onClick={toggleCollapse}
                   title='Collapse item'
-                  icon={<>&#9660;</>}
+                  icon={!collapsed ? <>&#9660;</> : <>&#9658;</>}
                 />
               )}
               {escapedLabel}

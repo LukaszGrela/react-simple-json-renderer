@@ -41,6 +41,13 @@ div.Container {
     &.with-toolbox > .Toolbox {
       margin-left: 0.25rem;
     }
+
+    & .Button.collapse {
+      &:focus,
+      &:focus-visible {
+        outline: none;
+      }
+    }
   }
 
   &.empty {
