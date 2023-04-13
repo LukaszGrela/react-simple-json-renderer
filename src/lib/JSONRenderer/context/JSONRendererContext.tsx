@@ -106,24 +106,24 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
           const containerDataNode = get(wrapper, action.identifier.path);
 
           const wasEmpty = containerTreeNode.children === undefined;
-
+          const actionData = action.data;
           // container is an array
-          if (action.identifier.type === 'array') {
+          if (actionData.containerType === 'array') {
             const list = castAsDraft<Array<any>>(containerDataNode);
-            if (action.data.value) {
+            if (actionData.value) {
               // push value
-              list.push(action.data.value);
+              list.push(actionData.value);
             } else {
               // push default empty value
-              list.push(defaultValueByType(action.data.type));
+              list.push(defaultValueByType(actionData.type));
             }
           } else {
-            const path = action.data.key;
+            const path = actionData.key;
             // or object
-            if (action.data.value) {
-              set(containerDataNode, path, action.data.value);
+            if (actionData.value) {
+              set(containerDataNode, path, actionData.value);
             } else {
-              set(containerDataNode, path, defaultValueByType(action.data.type));
+              set(containerDataNode, path, defaultValueByType(actionData.type));
             }
           }
 
@@ -139,14 +139,14 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
             // create new tree entry
             const children = containerTreeNode.children!;
             const key = (
-              action.identifier.type === 'array' ? containerDataNode.length - 1 : action.data.key
+              actionData.containerType === 'array' ? containerDataNode.length - 1 : actionData.key
             ).toString();
             const path = addPath(action.identifier.path, key);
 
             children[key] = {
               key,
               level: action.identifier.level + 1,
-              type: action.data.type,
+              type: actionData.type,
               uniqueId: uniqueId(),
               path,
             };
@@ -184,7 +184,7 @@ export function JSONRendererProvider<T>({
     [dispatch],
   );
   const addNode = useCallback(
-    (descriptor: TTreeDescription, newType: TDataType, key: string, newValue?: any) => {
+    (descriptor: TTreeDescription, newType: TDataType, key?: string, newValue?: any) => {
       console.log(
         'Attempt to add new node to',
         descriptor.path,
@@ -195,15 +195,32 @@ export function JSONRendererProvider<T>({
         key,
         newValue,
       );
-      dispatch({
-        type: 'addNode',
-        identifier: descriptor,
-        data: {
-          type: newType,
-          value: newValue,
-          key,
-        },
-      });
+      if (descriptor.type === 'array') {
+        dispatch({
+          type: 'addNode',
+          identifier: descriptor,
+          data: {
+            containerType: 'array',
+            type: newType,
+            value: newValue,
+          },
+        });
+      } else {
+        if (key) {
+          dispatch({
+            type: 'addNode',
+            identifier: descriptor,
+            data: {
+              containerType: 'object',
+              type: newType,
+              value: newValue,
+              key,
+            },
+          });
+        } else {
+          console.warn('Missing key parameter');
+        }
+      }
     },
     [dispatch],
   );

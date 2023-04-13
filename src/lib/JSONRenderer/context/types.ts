@@ -23,7 +23,7 @@ export type TBuildTreeData<T> = {
   changeIdentifier: string;
 };
 export interface IJSONRendererContextActions {
-  addNode: (descriptor: TTreeDescription, newType: TDataType, key: string, newValue?: any) => void;
+  addNode: (descriptor: TTreeDescription, newType: TDataType, key?: string, newValue?: any) => void;
   removeNode: (descriptor: TTreeDescription) => void;
   updateNode: (descriptor: TTreeDescription) => void;
 }
@@ -42,13 +42,22 @@ export interface IContextAction {
 export interface IRemoveNodeAction extends IContextAction {
   type: 'removeNode';
 }
+
+type TObjectNodeData = {
+  containerType: 'object';
+  key: string;
+};
+type TArrayNodeData = {
+  containerType: 'array';
+};
+type TNodeData = {
+  type: TDataType;
+  value?: any;
+};
+
 export interface IAddNodeAction extends IContextAction {
   type: 'addNode';
-  data: {
-    type: TDataType;
-    key: string;
-    value?: any;
-  };
+  data: (TArrayNodeData | TObjectNodeData) & TNodeData;
 }
 
 export type TAction = IRemoveNodeAction | IAddNodeAction;
