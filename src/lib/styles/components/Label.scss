@@ -1,0 +1,11 @@
+span.Label {
+  display: block;
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow: hidden;
+  width: 100%;
+  text-align: start;
+  font-weight: bold;
+
+  color: $color-label;
+}

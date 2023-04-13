@@ -1,0 +1,36 @@
+$value-margin: 0.25rem;
+span.Value {
+  margin-left: $value-margin;
+}
+
+span.Value.Value-editable {
+  width: 1rem;
+  & input {
+    color: inherit;
+    width: calc(100% - $value-margin - 2px - 6px);
+    border-radius: 3px;
+    border: 1px solid $color-input-border;
+    padding: 3px;
+  }
+
+  & select {
+    color: inherit;
+    width: calc(100% - $value-margin);
+    border-radius: 3px;
+    border: 1px solid $color-input-border;
+    padding: 2px;
+  }
+}
+
+.string > .Value {
+  color: $color-string-value;
+}
+.number > .Value {
+  color: $color-number-value;
+}
+.null > .Value {
+  color: $color-null-value;
+}
+.boolean > .Value {
+  color: $color-boolean-value;
+}

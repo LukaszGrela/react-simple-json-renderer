@@ -1,0 +1,146 @@
+div.Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  margin: 0.125rem 0 0.25rem 1rem;
+
+  & > .Children {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &.level-0 {
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  &.object > .Children::before {
+    content: '{';
+    text-align: left;
+  }
+  &.object > .Children::after {
+    content: '}';
+    text-align: left;
+  }
+
+  &.array > .Children::before {
+    content: '[';
+    text-align: left;
+  }
+  &.array > .Children::after {
+    content: ']';
+    text-align: left;
+  }
+
+  & > span.Label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    &.with-toolbox > .Toolbox {
+      margin-left: 0.25rem;
+    }
+  }
+
+  &.empty {
+    flex-direction: row;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+
+    & > .Label {
+      width: unset;
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+
+    & > .Children {
+      flex-shrink: 0;
+      flex-grow: 0;
+    }
+    & > .Children::after {
+      content: none;
+    }
+    & > .Children::before {
+      margin-left: 0.25rem;
+    }
+
+    &.object > .Children::before {
+      content: '{ }';
+    }
+    &.array > .Children::before {
+      content: '[ ]';
+    }
+  }
+
+  /* narrow modifier */
+  &.narrow > .Children > .Leaf {
+    flex-direction: column;
+    justify-items: stretch;
+
+    & > .Label,
+    & > .Value,
+    & > .Toolbox {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: unset;
+      width: 100%;
+      min-width: unset;
+      max-width: unset;
+      margin: 0;
+    }
+
+    & > .Value {
+      /* 8px  padding and border on input */
+      width: calc(100% - 8px);
+    }
+  }
+
+  /* braces colors */
+  &.level-0,
+  &.level-3,
+  &.level-6,
+  &.level-9 {
+    & > .Label > .Button.collapse {
+      color: $color-braces-nth;
+      &:hover {
+        border-color: transparent;
+      }
+    }
+    & > .Children::before,
+    & > .Children::after {
+      color: $color-braces-nth;
+    }
+  }
+  &.level-1,
+  &.level-4,
+  &.level-7,
+  &.level-10 {
+    & > .Label > .Button.collapse {
+      color: $color-braces-nth-plus1;
+      &:hover {
+        border-color: transparent;
+      }
+    }
+    & > .Children::before,
+    & > .Children::after {
+      color: $color-braces-nth-plus1;
+    }
+  }
+  &.level-2,
+  &.level-5,
+  &.level-8,
+  &.level-11 {
+    & > .Label > .Button.collapse {
+      color: $color-braces-nth-plus2;
+      &:hover {
+        border-color: transparent;
+      }
+    }
+    & > .Children::before,
+    & > .Children::after {
+      color: $color-braces-nth-plus2;
+    }
+  }
+}
