@@ -35,7 +35,8 @@ const AddNewField: FC<IProps> = ({
     } else {
       console.log('Add to:', treeDescriptor, selectedType);
       setError('');
-      addNode(treeDescriptor, selectedType, field, value);
+      const newValue = selectedType !== 'array' && selectedType !== 'object' ? value : undefined;
+      addNode(treeDescriptor, selectedType, field, newValue);
     }
   }, [fieldName, treeDescriptor, selectedType, addNode, value]);
 
