@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { classnames } from '../../utils/classnames';
+import { Label } from '../Label';
 import { Value } from '../Value';
 import { IProps } from './types';
 
@@ -14,9 +15,7 @@ const Leaf: FC<IProps> = ({ treeDescriptor, value }): JSX.Element => {
         !!treeDescriptor.level && `level-${treeDescriptor.level}`,
       )}
     >
-      <span className='Label' title={treeDescriptor.key}>
-        {treeDescriptor.key}
-      </span>
+      <Label treeDescriptor={treeDescriptor} />
       <Value editable={false} dataType={treeDescriptor.type} value={value} />
     </div>
   );

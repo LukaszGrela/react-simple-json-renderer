@@ -7,6 +7,7 @@ import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { TDataType } from '~/lib/types';
+import { Label } from '../Label';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
   const [narrow, setNarrow] = useState(false);
@@ -76,21 +77,25 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
           className,
         )}
       >
-        <span className={classnames('Label', !!toolbox && 'with-toolbox')}>
-          {collapsible && treeDescriptor.children !== undefined && (
-            <Button
-              className='collapse'
-              type='button'
-              onClick={() => {
-                setCollapsed((state) => !state);
-              }}
-              title='Collapse item'
-              icon={<>&#9660;</>}
-            />
+        <Label className={!!toolbox && 'with-toolbox'} treeDescriptor={treeDescriptor}>
+          {(escapedLabel) => (
+            <>
+              {collapsible && treeDescriptor.children !== undefined && (
+                <Button
+                  className='collapse'
+                  type='button'
+                  onClick={() => {
+                    setCollapsed((state) => !state);
+                  }}
+                  title='Collapse item'
+                  icon={<>&#9660;</>}
+                />
+              )}
+              {escapedLabel}
+              {toolbox}
+            </>
           )}
-          {treeDescriptor.key}
-          {toolbox}
-        </span>
+        </Label>
         {children && !collapsed && <span className='Children'>{children}</span>}
       </div>
     );

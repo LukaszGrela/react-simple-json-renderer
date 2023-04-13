@@ -6,6 +6,7 @@ import { Value } from '../Value';
 import { IProps } from './types';
 import { Toolbox } from '../Toolbox';
 import { Button } from '../Button';
+import { Label } from '../Label';
 
 const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
   const { removeNode, updateNode } = useJSONRendererContextActions();
@@ -31,9 +32,7 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
         !!treeDescriptor.level && `level-${treeDescriptor.level}`,
       )}
     >
-      <span className='Label' title={treeDescriptor.key}>
-        {treeDescriptor.key}
-      </span>
+      <Label treeDescriptor={treeDescriptor} />
       <Value
         editable
         dataPath={treeDescriptor.path}

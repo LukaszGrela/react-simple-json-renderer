@@ -5,6 +5,7 @@ import { IProps } from './types';
 import { Value } from '../Value';
 import { Toolbox } from '../Toolbox';
 import { Button } from '../Button';
+import { Label } from '../Label';
 
 const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
   const { removeNode } = useJSONRendererContextActions();
@@ -22,7 +23,7 @@ const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
         !!treeDescriptor.level && `level-${treeDescriptor.level}`,
       )}
     >
-      <span className='Label'>{treeDescriptor.key}</span>
+      <Label treeDescriptor={treeDescriptor} />
       <Value editable={false} dataType='null' value={'null'} />
       <Toolbox>
         <Button
