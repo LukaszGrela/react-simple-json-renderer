@@ -5,7 +5,6 @@ import { useJSONRendererContextActions } from '../../context';
 import { Value } from '../Value';
 import { IProps } from './types';
 import { Toolbox } from '../Toolbox';
-import { Button } from '../Button';
 import { Label } from '../Label';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 
@@ -40,23 +39,6 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
       />
       <Toolbox>
         <RemoveButton treeDescriptor={treeDescriptor} />
-        <Button
-          className='positive'
-          type='button'
-          onClick={() => {
-            console.log('click');
-          }}
-          title='Apply changes'
-          icon={<>&#10003;</>}
-        />
-        <Button
-          type='button'
-          onClick={() => {
-            console.log('click');
-          }}
-          title='Remove element'
-          icon={<>&#43;</>}
-        />
       </Toolbox>
     </div>
   );
