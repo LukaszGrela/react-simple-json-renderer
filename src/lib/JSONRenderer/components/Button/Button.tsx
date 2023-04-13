@@ -1,13 +1,6 @@
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
+import { IProps } from './types';
 import { classnames } from '../../utils/classnames';
-
-interface IProps {
-  icon?: ReactNode;
-  onClick: () => void;
-  className?: string;
-  type?: string;
-  title?: string;
-}
 
 const Button: FC<IProps> = ({ className, icon, onClick, title }): JSX.Element => {
   return (
