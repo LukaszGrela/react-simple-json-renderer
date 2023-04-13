@@ -48,10 +48,15 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
             delete parentIdentifier.children?.[action.identifier.key];
             delete parentData[action.identifier.key];
 
+            const childrenLength = keys(parentIdentifier.children);
             // if array is empty, remove children
-            if (keys(parentIdentifier.children).length === 0) {
+            if (childrenLength.length === 0) {
               delete parentIdentifier.children;
               parentIdentifier.uniqueId = uniqueId();
+              parentIdentifier.childrenLength = 0;
+            } else {
+              // update children length
+              parentIdentifier.childrenLength = childrenLength.length;
             }
           }
 
@@ -90,6 +95,10 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
             if (parentData.length === 0) {
               delete parentIdentifier.children;
               parentIdentifier.uniqueId = uniqueId();
+              parentIdentifier.childrenLength = 0;
+            } else {
+              // update children length
+              parentIdentifier.childrenLength = parentData.length;
             }
           }
         }
@@ -149,9 +158,12 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
               type: actionData.type,
               uniqueId: uniqueId(),
               path,
+              childrenLength: 0,
             };
             // redraw
             containerTreeNode.uniqueId = uniqueId();
+            // update children length
+            containerTreeNode.childrenLength = keys(containerTreeNode.children).length;
           }
         }
       }

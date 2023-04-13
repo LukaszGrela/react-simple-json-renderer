@@ -85,7 +85,10 @@ export function treeTraverser<N>(
             path: leafPath,
             key: key.toString(),
             uniqueId: uniqueId(),
+            childrenLength: 0,
           };
+          // update children length
+          parentTree.childrenLength = keys(parentTreeChildren).length;
         }
         break;
       case 'object':
@@ -103,7 +106,10 @@ export function treeTraverser<N>(
               level,
               key: key.toString(),
               uniqueId: uniqueId(),
+              childrenLength: 0,
             };
+            // update children length
+            parentTree.childrenLength = keys(parentTreeChildren).length;
 
             // loop
             treeTraverser(
@@ -125,7 +131,10 @@ export function treeTraverser<N>(
               path: leafPath,
               key: key.toString(),
               uniqueId: uniqueId(),
+              childrenLength: 0,
             };
+            // update children length
+            parentTree.childrenLength = keys(parentTreeChildren).length;
           }
         }
         break;
@@ -173,6 +182,7 @@ export function buildTree<T = any>(data: T): TBuildTreeData<T> {
     level: 0,
     key: 'root',
     uniqueId: uniqueId(),
+    childrenLength: 0,
   };
 
   // start traversing

@@ -14,6 +14,7 @@ export type TTreeDescription = {
   type: TDataType;
   level: number;
   children?: TTree;
+  childrenLength: number;
 };
 export type TTree = { [key: string]: TTreeDescription };
 
