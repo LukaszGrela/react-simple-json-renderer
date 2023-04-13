@@ -1,5 +1,10 @@
-.TypeSelector {
-  margin-left: 10px;
-  margin-top: 4px;
-  margin-bottom: 4px;
+div.TypeSelector {
+  & > select {
+    text-align: center;
+    color: inherit;
+    width: calc(100%);
+    border-radius: 3px;
+    border: 1px solid $color-input-border;
+    padding: 2px;
+  }
 }

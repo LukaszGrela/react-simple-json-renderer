@@ -6,6 +6,7 @@ span.Label {
   width: 100%;
   text-align: start;
   font-weight: bold;
+  white-space: nowrap;
 
   color: $color-label;
 }
