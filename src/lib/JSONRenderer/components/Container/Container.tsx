@@ -81,7 +81,10 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
       )}
       {treeDescriptor.children && inlineEditing && (
         <AddNewField
-          initialFieldName='field'
+          initialFieldName={
+            treeDescriptor.type === 'array' ? treeDescriptor.childrenLength.toString() : undefined
+          }
+          fieldNameEditable={treeDescriptor.type === 'object'}
           newType={selectedType}
           treeDescriptor={{ ...treeDescriptor, level: treeDescriptor.level + 1 }}
           cancel={handleCancelAddingNewField}
