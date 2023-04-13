@@ -1,2 +1,2 @@
 export { default as TypeSelector } from './TypeSelector';
-export * from './types';
+export type { IProps as ITypeSelectorProps } from './types';
