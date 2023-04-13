@@ -7,6 +7,7 @@ import { IProps } from './types';
 import { Toolbox } from '../Toolbox';
 import { Label } from '../Label';
 import { RemoveButton } from '../Toolbox/RemoveButton';
+import { Button } from '../Button';
 
 const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
   const { updateNode } = useJSONRendererContextActions();
@@ -14,7 +15,9 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
   const handleOnChange = useCallback(
     (newValue: any) => {
       setValue(newValue);
-      updateNode(treeDescriptor);
+      updateNode(treeDescriptor, {
+        value: newValue,
+      });
     },
     [treeDescriptor, updateNode],
   );
@@ -39,6 +42,13 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
       />
       <Toolbox>
         <RemoveButton treeDescriptor={treeDescriptor} />
+        <Button
+          className={'negative'}
+          type={'button'}
+          onClick={console.log}
+          title={'Edit element'}
+          icon={<>✎</>}
+        />
       </Toolbox>
     </div>
   );
