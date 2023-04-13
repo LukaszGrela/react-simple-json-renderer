@@ -22,7 +22,6 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
           return (
             <Container type={data.type} key={data.uniqueId} treeDescriptor={data}>
               {data.children && traverse(data.children)}
-              {!data.children && <AddNewItem treeDescriptor={{ ...data, level: data.level + 1 }} />}
             </Container>
           );
 

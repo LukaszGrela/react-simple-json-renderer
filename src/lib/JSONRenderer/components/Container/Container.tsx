@@ -8,6 +8,8 @@ import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { TDataType } from '~/lib/types';
 import { Label } from '../Label';
+import { AddNewItem } from '../AddNewItem';
+import { RemoveButton } from '../Toolbox/RemoveButton';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
   const [narrow, setNarrow] = useState(false);
@@ -39,25 +41,33 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
       type={type}
       treeDescriptor={treeDescriptor}
       toolbox={
-        treeDescriptor.children && (
-          <Toolbox>
-            <TypeSelector
-              id={treeDescriptor.path}
-              type={selectedType}
-              onChange={handleTypeChanged}
-            />
-            <Button
-              className='positive'
-              type='button'
-              onClick={handleNewItem}
-              title={title}
-              icon={<>&#43;</>}
-            />
-          </Toolbox>
-        )
+        <Toolbox>
+          {treeDescriptor.children && (
+            <>
+              <TypeSelector
+                id={treeDescriptor.path}
+                type={selectedType}
+                onChange={handleTypeChanged}
+              />
+              <Button
+                className='positive'
+                type='button'
+                onClick={handleNewItem}
+                title={title}
+                icon={<>&#43;</>}
+              />
+            </>
+          )}
+          {!(treeDescriptor.key === 'root' && treeDescriptor.level === 0) && (
+            <RemoveButton treeDescriptor={treeDescriptor} />
+          )}
+        </Toolbox>
       }
     >
       {children}
+      {!treeDescriptor.children && (
+        <AddNewItem treeDescriptor={{ ...treeDescriptor, level: treeDescriptor.level + 1 }} />
+      )}
     </ContainerWrapper>
   );
 };
