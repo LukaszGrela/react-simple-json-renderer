@@ -23,10 +23,25 @@ export type TBuildTreeData<T> = {
   tree: TTree;
   changeIdentifier: string;
 };
+
+type TUpdateProps = {
+  value: any;
+  type: TDataType;
+  key: string;
+};
+
+type TPickPartial<T, K extends keyof T> = Pick<T, K> & Omit<Partial<T>, K>;
+
+type TUpdateValue = TPickPartial<TUpdateProps, 'value'>;
+type TUpdateType = TPickPartial<TUpdateProps, 'type'>;
+type TUpdateKey = TPickPartial<TUpdateProps, 'key'>;
+
+export type TUpdateDetails = TUpdateValue | TUpdateType | TUpdateKey;
+
 export interface IJSONRendererContextActions {
   addNode: (descriptor: TTreeDescription, newType: TDataType, key?: string, newValue?: any) => void;
   removeNode: (descriptor: TTreeDescription) => void;
-  updateNode: (descriptor: TTreeDescription) => void;
+  updateNode: (descriptor: TTreeDescription, update: TUpdateDetails) => void;
 }
 export interface IJSONRendererContext<T> {
   treeData: TBuildTreeData<T>;
@@ -61,4 +76,10 @@ export interface IAddNodeAction extends IContextAction {
   data: (TArrayNodeData | TObjectNodeData) & TNodeData;
 }
 
-export type TAction = IRemoveNodeAction | IAddNodeAction;
+export interface IUpdateNodeAction extends IContextAction {
+  type: 'updateNode';
+  identifier: TTreeDescription;
+  update: TUpdateDetails;
+}
+
+export type TAction = IRemoveNodeAction | IAddNodeAction | IUpdateNodeAction;

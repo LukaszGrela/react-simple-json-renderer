@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import keys from 'lodash/keys';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import has from 'lodash/has';
 import { Draft } from 'immer';
 import { ImmerReducer, useImmerReducer } from 'use-immer';
 import {
@@ -12,6 +13,7 @@ import {
   TAction,
   TBuildTreeData,
   TTreeDescription,
+  TUpdateDetails,
 } from './types';
 import {
   toTreePath,
@@ -168,7 +170,29 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
         }
       }
       break;
+
+    case 'updateNode':
+      {
+        const tree = draft?.tree;
+        const wrapper = draft?.wrapper;
+        if (tree && wrapper) {
+          const { identifier, update } = action;
+          const parentPath = getParentPath(identifier.path);
+          // container path
+          const containerDataNode = get(wrapper, parentPath);
+          console.log('containerDataNode', JSON.stringify(containerDataNode), identifier.key);
+          if (has(containerDataNode, identifier.key)) {
+            if (update.value !== undefined) {
+              containerDataNode[identifier.key] = update.value;
+            }
+          } else {
+            console.warn('Node not found', identifier.path, JSON.stringify(wrapper));
+          }
+        }
+      }
+      break;
     default:
+      console.warn('Unknown action', action);
       break;
   }
 };
@@ -187,7 +211,6 @@ export function JSONRendererProvider<T>({
 
   const removeNode = useCallback(
     (descriptor: TTreeDescription): void => {
-      console.log('Attempt to remove node', descriptor.path, 'of type', descriptor.type);
       dispatch({
         type: 'removeNode',
         identifier: descriptor,
@@ -197,16 +220,6 @@ export function JSONRendererProvider<T>({
   );
   const addNode = useCallback(
     (descriptor: TTreeDescription, newType: TDataType, key?: string, newValue?: any) => {
-      console.log(
-        'Attempt to add new node to',
-        descriptor.path,
-        'of type',
-        descriptor.type,
-        'with new value and type',
-        newType,
-        key,
-        newValue,
-      );
       if (descriptor.type === 'array') {
         dispatch({
           type: 'addNode',
@@ -236,9 +249,16 @@ export function JSONRendererProvider<T>({
     },
     [dispatch],
   );
-  const updateNode = useCallback((descriptor: TTreeDescription) => {
-    console.log('Update', descriptor);
-  }, []);
+  const updateNode = useCallback(
+    (descriptor: TTreeDescription, update: TUpdateDetails): void => {
+      dispatch({
+        type: 'updateNode',
+        identifier: descriptor,
+        update,
+      });
+    },
+    [dispatch],
+  );
 
   const value = { treeData: state } as IJSONRendererContext<T>;
   const config: IJSONRendererContextConfig = {
