@@ -41,15 +41,22 @@ function EditableValue<T = any>({
     },
     [dataType, onChange],
   );
-
+  const fieldNameId = `field-${dataPath}`;
   switch (dataType) {
+    case 'array':
+      return <span className='Value Value-editable'>[ ]</span>;
+    case 'object':
+      return <span className='Value Value-editable'>{'{ }'}</span>;
+    case 'null':
+      return <span className='Value Value-editable'>null</span>;
+
     case 'boolean':
       return (
         <span className='Value Value-editable'>
-          <label htmlFor={dataPath} hidden>
+          <label htmlFor={fieldNameId} hidden>
             Select value:
           </label>
-          <select id={dataPath} value={`${value}`} onChange={handleBooleanOnChange}>
+          <select id={fieldNameId} value={`${value}`} onChange={handleBooleanOnChange}>
             <option value='true'>True</option>
             <option value='false'>False</option>
           </select>
@@ -60,10 +67,10 @@ function EditableValue<T = any>({
     default:
       return (
         <span className='Value Value-editable'>
-          <label htmlFor={dataPath} hidden>
+          <label htmlFor={fieldNameId} hidden>
             Edit value:
           </label>
-          <input id={dataPath} type={dataType} value={value as any} onChange={handleOnChange} />
+          <input id={fieldNameId} type={dataType} value={value as any} onChange={handleOnChange} />
         </span>
       );
   }
