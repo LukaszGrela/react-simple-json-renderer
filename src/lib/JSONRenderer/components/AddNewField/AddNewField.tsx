@@ -14,6 +14,7 @@ const AddNewField: FC<IProps> = ({
   newType,
   cancel,
   initialFieldName = '',
+  fieldNameEditable = true,
 }): JSX.Element => {
   const [error, setError] = useState('');
   const [fieldName, setFieldName] = useState(initialFieldName);
@@ -50,23 +51,31 @@ const AddNewField: FC<IProps> = ({
 
   return (
     <div className={classnames('Element', 'Leaf', 'AddNewField', `level-${treeDescriptor.level}`)}>
-      <span className={classnames('Value', 'Value-editable', !!error && 'invalid')}>
-        <label htmlFor={fieldNameId} hidden>
-          Add field name:
-        </label>
-        <input
-          id={fieldNameId}
-          placeholder='Add field name'
-          type={'text'}
-          value={fieldName}
-          onChange={handleFieldNameOnChange}
-          aria-invalid={!!error}
-          aria-describedby={`${fieldNameId}-error-message`}
-        />
-        {!!error && (
-          <span className='error-message' id={`${fieldNameId}-error-message`}>
-            {error}
-          </span>
+      <span
+        className={classnames('Value', fieldNameEditable && 'Value-editable', !!error && 'invalid')}
+      >
+        {fieldNameEditable ? (
+          <>
+            <label htmlFor={fieldNameId} hidden>
+              Add field name:
+            </label>
+            <input
+              id={fieldNameId}
+              placeholder='Add field name'
+              type={'text'}
+              value={fieldName}
+              onChange={handleFieldNameOnChange}
+              aria-invalid={!!error}
+              aria-describedby={`${fieldNameId}-error-message`}
+            />
+            {!!error && (
+              <span className='error-message' id={`${fieldNameId}-error-message`}>
+                {error}
+              </span>
+            )}
+          </>
+        ) : (
+          `${fieldName}`
         )}
       </span>
       :

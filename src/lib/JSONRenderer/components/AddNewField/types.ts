@@ -21,4 +21,9 @@ export interface IProps {
    * Populate with predefined field name
    */
   initialFieldName?: string;
+  /**
+   * If the field name can be edited. Default true.
+   * To be used with `initialFieldName`.
+   */
+  fieldNameEditable?: boolean;
 }
