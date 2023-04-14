@@ -6,6 +6,7 @@ export interface IProps<T> {
   children: ReactNode;
   // config
   collapsible?: boolean;
+  viewerUseQuotes?: boolean;
 }
 export type TTreeDescription = {
   uniqueId: string;
@@ -49,6 +50,7 @@ export interface IJSONRendererContext<T> {
 
 export interface IJSONRendererContextConfig {
   collapsible: boolean;
+  viewerUseQuotes: boolean;
 }
 
 export interface IContextAction {

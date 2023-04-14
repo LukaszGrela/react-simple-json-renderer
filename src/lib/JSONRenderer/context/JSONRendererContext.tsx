@@ -201,6 +201,7 @@ export function JSONRendererProvider<T>({
   children,
   treeData,
   collapsible = true,
+  viewerUseQuotes = false,
 }: IProps<T>): JSX.Element {
   console.log('JSONRendererProvider');
 
@@ -263,6 +264,7 @@ export function JSONRendererProvider<T>({
   const value = { treeData: state } as IJSONRendererContext<T>;
   const config: IJSONRendererContextConfig = {
     collapsible,
+    viewerUseQuotes,
   };
   return (
     <JSONRendererConfig.Provider value={config}>
