@@ -5,13 +5,17 @@ import { Viewer } from './Viewer';
 
 import '../styles.scss';
 
-function JSONRenderer<T = any>({ children, data, collapsible }: IProps<T>) {
+function JSONRenderer<T = any>({ children, data, collapsible, viewerUseQuotes }: IProps<T>) {
   console.log('JSONRenderer');
   // build initial data tree
   const treeData = buildTree(data);
 
   return (
-    <JSONRendererProvider treeData={treeData} collapsible={collapsible}>
+    <JSONRendererProvider
+      treeData={treeData}
+      collapsible={collapsible}
+      viewerUseQuotes={viewerUseQuotes}
+    >
       <div className='JSONRenderer'>{children}</div>
     </JSONRendererProvider>
   );

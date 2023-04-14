@@ -6,6 +6,7 @@ export interface IProps<T> {
   data: T;
   children: ReactNode;
   collapsible?: boolean;
+  viewerUseQuotes?: boolean;
 }
 
 export interface IJSONRenderer<T = any> extends FC<IProps<T>> {
