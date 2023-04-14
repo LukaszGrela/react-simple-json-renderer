@@ -11,8 +11,10 @@ import { Label } from '../Label';
 import { AddNewItem } from '../AddNewItem';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 import { AddNewField } from '../AddNewField';
+import { wrapWithQuotes } from '../../utils/string';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
+  const { collapsible } = useJSONRendererContextConfig();
   const [isCollapsed, setCollapsed] = useState(false);
   const [narrow, setNarrow] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -46,6 +48,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
 
   return (
     <ContainerWrapper
+      collapsible={collapsible}
       onCollapse={handleWrapperCollapsed}
       ref={ref}
       className={narrow && 'narrow'}
@@ -95,8 +98,20 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
 };
 
 export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
-  ({ type, treeDescriptor, children, className, toolbox, onCollapse }, ref): JSX.Element => {
-    const { collapsible } = useJSONRendererContextConfig();
+  (
+    {
+      type,
+      treeDescriptor,
+      children,
+      className,
+      toolbox,
+      onCollapse,
+      collapsible,
+      useQuotes,
+      viewer,
+    },
+    ref,
+  ): JSX.Element => {
     const [collapsed, setCollapsed] = useState(false);
     const toggleCollapse = useCallback(() => {
       setCollapsed((state) => !state);
@@ -126,7 +141,16 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
                   icon={!collapsed ? <>&#9660;</> : <>&#9658;</>}
                 />
               )}
-              {escapedLabel}
+              {
+                <span className='wrapper'>{`${wrapWithQuotes(escapedLabel, 'string', useQuotes)}${
+                  viewer ? ':' : ''
+                }`}</span>
+              }
+              {collapsed && (
+                <span className='brackets'>
+                  {treeDescriptor.type === 'array' ? '[ … ]' : '{ … }'}
+                </span>
+              )}
               {toolbox}
             </>
           )}
@@ -137,5 +161,16 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
   },
 );
 ContainerWrapper.displayName = 'ContainerWrapper';
+
+export const ViewerContainer: FC<Omit<IWrapperProps, 'collapsible' | 'useQuotes'>> = (
+  props,
+): JSX.Element => {
+  const { collapsible, viewerUseQuotes } = useJSONRendererContextConfig();
+
+  return (
+    <ContainerWrapper collapsible={collapsible} useQuotes={viewerUseQuotes} {...props} viewer />
+  );
+};
+ViewerContainer.displayName = 'ViewerContainer';
 
 export default Container;

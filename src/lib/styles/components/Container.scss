@@ -38,6 +38,7 @@ div.Container {
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
+
     &.with-toolbox > .Toolbox {
       margin-left: 0.25rem;
     }
@@ -47,6 +48,10 @@ div.Container {
       &:focus-visible {
         outline: none;
       }
+    }
+
+    & > .brackets {
+      margin-left: 0.25rem;
     }
   }
 
@@ -119,6 +124,9 @@ div.Container {
     & > .Children::after {
       color: $color-braces-nth;
     }
+    & > span.Label > .brackets {
+      color: $color-braces-nth;
+    }
   }
   &.level-1,
   &.level-4,
@@ -134,6 +142,9 @@ div.Container {
     & > .Children::after {
       color: $color-braces-nth-plus1;
     }
+    & > span.Label > .brackets {
+      color: $color-braces-nth-plus1;
+    }
   }
   &.level-2,
   &.level-5,
@@ -147,6 +158,9 @@ div.Container {
     }
     & > .Children::before,
     & > .Children::after {
+      color: $color-braces-nth-plus2;
+    }
+    & > span.Label > .brackets {
       color: $color-braces-nth-plus2;
     }
   }
