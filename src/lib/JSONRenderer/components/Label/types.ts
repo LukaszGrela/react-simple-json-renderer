@@ -5,5 +5,5 @@ import { TClassNamesArg } from '../../utils/classnames';
 export interface IProps {
   treeDescriptor: TTreeDescription;
   className?: TClassNamesArg;
-  children?: (escapedLabel: string) => ReactNode;
+  children?: (escapedLabel: string, escapedLabelNode: ReactNode) => ReactNode;
 }

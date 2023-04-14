@@ -8,7 +8,11 @@ const Label: FC<IProps> = ({ treeDescriptor, className, children }): JSX.Element
 
   return (
     <span className={classnames('Label', className)} title={escapedLabel}>
-      {children ? children(escapedLabel) : escapedLabel}
+      {children ? (
+        children(escapedLabel, <span className='wrapper'>{escapedLabel}</span>)
+      ) : (
+        <span className='wrapper'>{escapedLabel}</span>
+      )}
     </span>
   );
 };
