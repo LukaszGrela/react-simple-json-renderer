@@ -3,7 +3,7 @@ import keys from 'lodash/keys';
 import get from 'lodash/get';
 import { TViewer } from './types';
 import { TTree, useJSONRendererContext } from '../context';
-import { ContainerWrapper, Leaf } from '../components';
+import { ViewerContainer, Leaf } from '../components';
 
 const buildComponents = (tree: TTree, source: any): ReactNode => {
   function traverse(tree?: TTree) {
@@ -20,7 +20,7 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
         case 'array':
         case 'object':
           return (
-            <ContainerWrapper
+            <ViewerContainer
               className={!data.children ? 'empty' : undefined}
               type={data.type}
               key={data.uniqueId}
@@ -28,7 +28,7 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
             >
               {data.children && traverse(data.children)}
               {!data.children && <></>}
-            </ContainerWrapper>
+            </ViewerContainer>
           );
 
         default:

@@ -4,6 +4,7 @@ div.Leaf {
   text-align: left;
 
   & > .Label {
+    display: flex;
     flex-grow: 1;
     flex-shrink: 1;
     min-width: 6rem;
@@ -30,9 +31,11 @@ div.Leaf {
     }
     & > .Value {
       flex-grow: 0;
-      flex-shrink: 0;
+      flex-shrink: 1;
       min-width: unset;
       max-width: unset;
+      word-wrap: break-word;
+      word-break: break-all;
     }
   }
 }

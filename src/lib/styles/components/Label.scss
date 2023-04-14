@@ -2,11 +2,17 @@ span.Label {
   display: block;
   flex-shrink: 1;
   flex-grow: 1;
-  overflow: hidden;
   width: 100%;
   text-align: start;
   font-weight: bold;
   white-space: nowrap;
 
   color: $color-label;
+
+  & > .wrapper {
+    display: block;
+    max-width: 18rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

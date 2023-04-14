@@ -4,11 +4,10 @@ div.Viewer {
 
   width: 100%;
 
-  & .Container > .Label::after {
-    content: ':';
-  }
-
-  & .Leaf > .Label::after {
-    content: ':';
+  & span.Label > span.wrapper {
+    width: fit-content;
+    max-width: 40rem;
+    word-wrap: break-word;
+    white-space: break-spaces;
   }
 }
