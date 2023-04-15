@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import keys from 'lodash/keys';
 import { TEditor } from './types';
 import { useJSONRendererContext, TTree } from '../context';
-import { AddNewItem, Container, Input, NullElement } from '../components';
+import { Container, Input, NullElement } from '../components';
 
 const buildComponents = (tree: TTree, source: any): ReactNode => {
   function traverse(tree?: TTree) {
