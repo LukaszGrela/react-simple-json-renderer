@@ -5,9 +5,8 @@ div.Viewer {
   width: 100%;
 
   & span.Label > span.wrapper {
-    width: fit-content;
-    max-width: 40rem;
     word-wrap: break-word;
     white-space: break-spaces;
+    word-break: break-all;
   }
 }
