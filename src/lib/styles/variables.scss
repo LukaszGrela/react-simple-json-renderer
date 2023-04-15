@@ -9,14 +9,23 @@ $font-family: var(--font-family, 'monospace');
 $font-size: var(--font-size, 14px);
 $font-color: var(--font-color, #2b2b2b);
 
-// light theme
+// light+ theme
 $color-braces-nth: #0431fa;
 $color-braces-nth-plus1: #319331;
 $color-braces-nth-plus2: #7b3814;
-
 $color-label: #0451a5;
-
 $color-string-value: #a31515;
 $color-number-value: #098658;
 $color-null-value: #00f;
 $color-boolean-value: #00f;
+
+// Dark+ theme
+$color-dark-braces-nth: #ffd700;
+$color-dark-braces-nth-plus1: #da70d6;
+$color-dark-braces-nth-plus2: #179fff;
+$color-dark-label: #9cdcfe;
+$color-dark-string-value: #ce9178;
+$color-dark-number-value: #b5cea8;
+$color-dark-null-value: #569cd6;
+$color-dark-boolean-value: #569cd6;
+$color-dark-background: #252526;
