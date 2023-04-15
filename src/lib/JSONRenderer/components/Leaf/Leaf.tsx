@@ -19,7 +19,13 @@ const Leaf: FC<IProps> = ({ treeDescriptor, value }): JSX.Element => {
       )}
     >
       <Label treeDescriptor={treeDescriptor}>
-        {(escapedLabel) => `${wrapWithQuotes(escapedLabel, 'string', viewerUseQuotes)}:`}
+        {(escapedLabel) => (
+          <span className='wrapper'>{`${wrapWithQuotes(
+            escapedLabel,
+            'string',
+            viewerUseQuotes,
+          )}:`}</span>
+        )}
       </Label>
       <Value
         editable={false}
