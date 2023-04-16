@@ -186,6 +186,27 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
             if (update.value !== undefined) {
               containerDataNode[identifier.key] = update.value;
             }
+            if (update.type !== undefined) {
+              const treeNode = get(tree, toTreePath(identifier.path)) as TTreeDescription;
+              treeNode.type = update.type;
+            }
+            if (update.key !== undefined) {
+              // Note: key is modifyiable only on objects
+              // data
+              const value = containerDataNode[identifier.key];
+              delete containerDataNode[identifier.key];
+              containerDataNode[update.key] = value;
+              // tree
+              const containerTreeNode = get(tree, toTreePath(parentPath));
+              const children = containerTreeNode.children!;
+              const treeNode = children[identifier.key];
+              delete children[identifier.key];
+              // update and move
+              treeNode.key = update.key;
+              treeNode.path = addPath(parentPath, update.key);
+              children[update.key] = treeNode;
+            }
+            // rerender
           } else {
             console.warn('Node not found', identifier.path, JSON.stringify(wrapper));
           }
