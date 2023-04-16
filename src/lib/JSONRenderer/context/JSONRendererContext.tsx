@@ -189,6 +189,9 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
             if (update.type !== undefined) {
               const treeNode = get(tree, toTreePath(identifier.path)) as TTreeDescription;
               treeNode.type = update.type;
+              // reset children length
+              treeNode.childrenLength = 0;
+              treeNode.children = undefined;
             }
             if (update.key !== undefined) {
               // Note: key is modifyiable only on objects
