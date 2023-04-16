@@ -161,6 +161,7 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
               uniqueId: uniqueId(),
               path,
               childrenLength: 0,
+              parentType: containerTreeNode.type,
             };
             // redraw
             containerTreeNode.uniqueId = uniqueId();

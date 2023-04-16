@@ -13,6 +13,7 @@ export type TTreeDescription = {
   key: string;
   path: string;
   type: TDataType;
+  parentType: TDataType | null;
   level: number;
   children?: TTree;
   childrenLength: number;
