@@ -1,16 +1,19 @@
 import get from 'lodash/get';
 import { FC, useCallback, useState } from 'react';
 import { classnames } from '../../utils/classnames';
-import { useJSONRendererContextActions } from '../../context';
+import { TUpdateDetails, useJSONRendererContextActions } from '../../context';
 import { Value } from '../Value';
 import { IProps } from './types';
 import { Toolbox } from '../Toolbox';
 import { Label } from '../Label';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 import { Button } from '../Button';
+import { EditField } from '../EditField';
 
 const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
   const { updateNode } = useJSONRendererContextActions();
+  const [editing, setEditing] = useState(false);
+
   const [value, setValue] = useState(get(dataPathRef, treeDescriptor.path));
   const handleOnChange = useCallback(
     (newValue: any) => {
@@ -22,7 +25,37 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
     [treeDescriptor, updateNode],
   );
 
-  return (
+  const handleEdit = () => {
+    setEditing(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditing(false);
+  };
+  const handleApplyEdit = (update: TUpdateDetails): void => {
+    console.log('To update', update);
+    setEditing(false);
+    if (value !== update.value) {
+      setValue(update.value);
+    }
+    updateNode(treeDescriptor, update);
+  };
+
+  return editing ? (
+    <EditField
+      className={classnames(
+        'Element',
+        'Leaf',
+        'Input',
+        treeDescriptor.type,
+        !!treeDescriptor.level && `level-${treeDescriptor.level}`,
+      )}
+      descriptor={treeDescriptor}
+      currentValue={value}
+      apply={handleApplyEdit}
+      cancel={handleCancelEdit}
+    />
+  ) : (
     <div
       className={classnames(
         'Element',
@@ -45,7 +78,7 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
         <Button
           className={'negative'}
           type={'button'}
-          onClick={console.log}
+          onClick={handleEdit}
           title={'Edit element'}
           icon={<>✎</>}
         />
