@@ -22,7 +22,7 @@ const RemoveButton: FC<Omit<IToolbarButtonProps, 'onClick' | 'icon'>> = ({
       type={type || 'button'}
       onClick={handleRemove}
       title={title || 'Remove element'}
-      icon={<>&#215;</>}
+      icon={'×'}
     />
   );
 };

@@ -20,11 +20,14 @@ const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
   const handleCancelEdit = () => {
     setEditing(false);
   };
-  const handleApplyEdit = (update: TUpdateDetails): void => {
-    console.log('To update', update);
+  const handleApplyEdit = useCallback(
+    (update: TUpdateDetails): void => {
     setEditing(false);
     updateNode(treeDescriptor, update);
-  };
+    },
+    [treeDescriptor, updateNode],
+  );
+
   return editing ? (
     <EditField
       className={classnames(
@@ -48,7 +51,7 @@ const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
         !!treeDescriptor.level && `level-${treeDescriptor.level}`,
       )}
     >
-      <Label treeDescriptor={treeDescriptor} />
+      <Label fieldName={treeDescriptor.key} />
       <Value editable={false} dataType='null' value={'null'} />
       <Toolbox>
         <RemoveButton treeDescriptor={treeDescriptor} />

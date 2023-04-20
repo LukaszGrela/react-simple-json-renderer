@@ -18,7 +18,7 @@ const Leaf: FC<IProps> = ({ treeDescriptor, value }): JSX.Element => {
         !!treeDescriptor.level && `level-${treeDescriptor.level}`,
       )}
     >
-      <Label treeDescriptor={treeDescriptor}>
+      <Label fieldName={treeDescriptor.key}>
         {(escapedLabel) => (
           <span className='wrapper'>{`${wrapWithQuotes(
             escapedLabel,

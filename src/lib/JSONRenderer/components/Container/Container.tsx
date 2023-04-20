@@ -129,7 +129,7 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
           className,
         )}
       >
-        <Label className={!!toolbox && 'with-toolbox'} treeDescriptor={treeDescriptor}>
+        <Label className={!!toolbox && 'with-toolbox'} fieldName={treeDescriptor.key}>
           {(escapedLabel) => (
             <>
               {collapsible && treeDescriptor.children !== undefined && (
@@ -138,7 +138,7 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
                   type='button'
                   onClick={toggleCollapse}
                   title='Collapse item'
-                  icon={!collapsed ? <>&#9660;</> : <>&#9658;</>}
+                  icon={!collapsed ? '▼' : '►'}
                 />
               )}
               {

@@ -44,7 +44,6 @@ export function treeTraverser<N>(
   level: number,
   parentTree: TTreeDescription,
 ) {
-  console.log('treeTraverser', parentPath, level);
   // read all keys of node object
   keys(node).forEach((key) => {
     const parentNode = node as { [key: string | number]: any };

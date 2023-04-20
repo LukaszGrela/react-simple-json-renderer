@@ -65,7 +65,7 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
         !!treeDescriptor.level && `level-${treeDescriptor.level}`,
       )}
     >
-      <Label treeDescriptor={treeDescriptor} />
+      <Label fieldName={treeDescriptor.key} />
       <Value
         editable
         dataPath={treeDescriptor.path}
