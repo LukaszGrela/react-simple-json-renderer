@@ -1,9 +1,10 @@
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 import keys from 'lodash/keys';
 import get from 'lodash/get';
 import { TViewer } from './types';
 import { TTree, useJSONRendererContext } from '../context';
 import { ViewerContainer, Leaf } from '../components';
+import React from 'react';
 
 const buildComponents = (tree: TTree, source: any): ReactNode => {
   function traverse(tree?: TTree) {
@@ -41,12 +42,9 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
 };
 
 const Editor: TViewer = (): JSX.Element => {
-  console.log('Viewer');
-  const {
-    treeData: { wrapper, tree },
-  } = useJSONRendererContext();
+  const { wrapper, tree } = useJSONRendererContext();
 
-  const components = buildComponents(tree, wrapper);
+  const components = useMemo(() => buildComponents(tree, wrapper), [tree, wrapper]);
 
   return (
     <div className='Viewer'>
@@ -55,4 +53,4 @@ const Editor: TViewer = (): JSX.Element => {
   );
 };
 
-export default Editor;
+export default React.memo(Editor);

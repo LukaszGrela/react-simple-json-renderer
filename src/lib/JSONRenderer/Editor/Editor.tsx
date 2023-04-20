@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import keys from 'lodash/keys';
 import { TEditor } from './types';
-import { useJSONRendererContext, TTree } from '../context';
+import { useJSONRendererContext, TTree, JSONRendererActionsProvider } from '../context';
 import { Container, Input, NullElement } from '../components';
 
 const buildComponents = (tree: TTree, source: any): ReactNode => {
@@ -35,19 +35,17 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
 };
 
 const Editor: TEditor = (): JSX.Element => {
-  console.log('Editor');
-  const {
-    treeData: { wrapper, tree },
-  } = useJSONRendererContext();
-  console.log(wrapper, tree);
+  const { wrapper, tree } = useJSONRendererContext();
 
-  const components = buildComponents(tree, wrapper);
+  const components = useMemo(() => buildComponents(tree, wrapper), [tree, wrapper]);
 
   return (
-    <div className='Editor'>
-      <div className='Editor_treeBuilder'>{components}</div>
-    </div>
+    <JSONRendererActionsProvider>
+      <div className='Editor'>
+        <div className='Editor_treeBuilder'>{components}</div>
+      </div>
+    </JSONRendererActionsProvider>
   );
 };
 
-export default Editor;
+export default React.memo(Editor);

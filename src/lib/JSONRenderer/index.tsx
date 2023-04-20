@@ -1,23 +1,25 @@
-import { buildTree, JSONRendererProvider } from './context';
+import { buildTree, JSONRendererConfigProvider, JSONRendererProvider } from './context';
 import { IProps } from './types';
 import { Editor } from './Editor';
 import { Viewer } from './Viewer';
 
 import '../styles.scss';
 
-function JSONRenderer<T = any>({ children, data, collapsible, viewerUseQuotes }: IProps<T>) {
-  console.log('JSONRenderer');
+function JSONRenderer<T = any>({
+  children,
+  data,
+  collapsible = true,
+  viewerUseQuotes = false,
+}: IProps<T>) {
   // build initial data tree
   const treeData = buildTree(data);
 
   return (
-    <JSONRendererProvider
-      treeData={treeData}
-      collapsible={collapsible}
-      viewerUseQuotes={viewerUseQuotes}
-    >
-      <div className='JSONRenderer'>{children}</div>
-    </JSONRendererProvider>
+    <JSONRendererConfigProvider collapsible={collapsible} viewerUseQuotes={viewerUseQuotes}>
+      <JSONRendererProvider treeData={treeData}>
+        <div className='JSONRenderer'>{children}</div>
+      </JSONRendererProvider>
+    </JSONRendererConfigProvider>
   );
 }
 

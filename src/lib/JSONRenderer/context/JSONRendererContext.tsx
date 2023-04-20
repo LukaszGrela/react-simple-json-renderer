@@ -1,20 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import keys from 'lodash/keys';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import has from 'lodash/has';
 import { Draft } from 'immer';
 import { ImmerReducer, useImmerReducer } from 'use-immer';
-import {
-  IJSONRendererContext,
-  IJSONRendererContextActions,
-  IJSONRendererContextConfig,
-  IProps,
-  TAction,
-  TBuildTreeData,
-  TTreeDescription,
-  TUpdateDetails,
-} from './types';
+import { IProps, TAction, TBuildTreeData, TTreeDescription } from './types';
 import {
   toTreePath,
   getParentPath,
@@ -24,19 +15,17 @@ import {
   fixArrayIndexes,
 } from './utils';
 import { uniqueId } from '../utils/string';
-import { TDataType } from '../../types';
 
 function castAsDraft<T>(element: T): Draft<T> {
   return element as Draft<T>;
 }
 
-const JSONRendererConfig = React.createContext<IJSONRendererContextConfig | undefined>(undefined);
-const JSONRendererContext = React.createContext<IJSONRendererContext<any> | undefined>(undefined);
-const JSONRendererActions = React.createContext<IJSONRendererContextActions | undefined>(undefined);
+const JSONRendererContext = React.createContext<TBuildTreeData<any> | undefined>(undefined);
+const JSONRendererContextDispatch = React.createContext<React.Dispatch<TAction> | undefined>(
+  undefined,
+);
 
-const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (draft, action) => {
-  console.log('action', action);
-
+const dataReducer: ImmerReducer<TBuildTreeData<any>, TAction> = (draft, action) => {
   switch (action.type) {
     case 'removeNode':
       {
@@ -181,7 +170,6 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
           const parentPath = getParentPath(identifier.path);
           // container path
           const containerDataNode = get(wrapper, parentPath);
-          console.log('containerDataNode', JSON.stringify(containerDataNode), identifier.key);
           if (has(containerDataNode, identifier.key)) {
             if (update.value !== undefined) {
               containerDataNode[identifier.key] = update.value;
@@ -209,7 +197,6 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
               treeNode.path = addPath(parentPath, update.key);
               children[update.key] = treeNode;
             }
-            // rerender
           } else {
             console.warn('Node not found', identifier.path, JSON.stringify(wrapper));
           }
@@ -222,87 +209,32 @@ const dataReducer: ImmerReducer<TBuildTreeData<any> | undefined, TAction> = (dra
   }
 };
 
-export function JSONRendererProvider<T>({
-  children,
-  treeData,
-  collapsible = true,
-  viewerUseQuotes = false,
-}: IProps<T>): JSX.Element {
-  console.log('JSONRendererProvider');
+function useJSONRendererReducer<T>(
+  treeData: TBuildTreeData<T>,
+): [state: TBuildTreeData<T>, dispatch: React.Dispatch<TAction>] {
+  const [state, dispatch] = useImmerReducer<TBuildTreeData<T>, TAction>(dataReducer, treeData);
+  const dispatchRef = useRef(dispatch);
 
-  const [state, dispatch] = useImmerReducer<TBuildTreeData<T> | undefined, TAction>(
-    dataReducer,
-    treeData,
-  );
+  useEffect(() => {
+    dispatchRef.current = dispatch;
+  }, [dispatch]);
 
-  const removeNode = useCallback(
-    (descriptor: TTreeDescription): void => {
-      dispatch({
-        type: 'removeNode',
-        identifier: descriptor,
-      });
-    },
-    [dispatch],
-  );
-  const addNode = useCallback(
-    (descriptor: TTreeDescription, newType: TDataType, key?: string, newValue?: any) => {
-      if (descriptor.type === 'array') {
-        dispatch({
-          type: 'addNode',
-          identifier: descriptor,
-          data: {
-            containerType: 'array',
-            type: newType,
-            value: newValue,
-          },
-        });
-      } else {
-        if (key) {
-          dispatch({
-            type: 'addNode',
-            identifier: descriptor,
-            data: {
-              containerType: 'object',
-              type: newType,
-              value: newValue,
-              key,
-            },
-          });
-        } else {
-          console.warn('Missing key parameter');
-        }
-      }
-    },
-    [dispatch],
-  );
-  const updateNode = useCallback(
-    (descriptor: TTreeDescription, update: TUpdateDetails): void => {
-      dispatch({
-        type: 'updateNode',
-        identifier: descriptor,
-        update,
-      });
-    },
-    [dispatch],
-  );
+  return [state, dispatchRef.current];
+}
 
-  const value = { treeData: state } as IJSONRendererContext<T>;
-  const config: IJSONRendererContextConfig = {
-    collapsible,
-    viewerUseQuotes,
-  };
+export function JSONRendererProvider<T>({ children, treeData }: IProps<T>): JSX.Element {
+  const [state, dispatch] = useJSONRendererReducer<T>(treeData);
+
   return (
-    <JSONRendererConfig.Provider value={config}>
-      <JSONRendererContext.Provider value={value}>
-        <JSONRendererActions.Provider value={{ updateNode, removeNode, addNode }}>
-          {children}
-        </JSONRendererActions.Provider>
-      </JSONRendererContext.Provider>
-    </JSONRendererConfig.Provider>
+    <JSONRendererContext.Provider value={state}>
+      <JSONRendererContextDispatch.Provider value={dispatch}>
+        {children}
+      </JSONRendererContextDispatch.Provider>
+    </JSONRendererContext.Provider>
   );
 }
 
-export function useJSONRendererContext() {
+export function useJSONRendererContext<T>(): TBuildTreeData<T> {
   const context = React.useContext(JSONRendererContext);
   if (context === undefined) {
     throw new Error('useJSONRendererContext must be used within a JSONRendererContext');
@@ -310,18 +242,12 @@ export function useJSONRendererContext() {
   return context;
 }
 
-export function useJSONRendererContextActions() {
-  const context = React.useContext(JSONRendererActions);
+export function useJSONRendererContextDispatch() {
+  const context = React.useContext(JSONRendererContextDispatch);
   if (context === undefined) {
-    throw new Error('useJSONRendererContextActions must be used within a JSONRendererActions');
-  }
-  return context;
-}
-
-export function useJSONRendererContextConfig() {
-  const context = React.useContext(JSONRendererConfig);
-  if (context === undefined) {
-    throw new Error('useJSONRendererContextConfig must be used within a JSONRendererConfig');
+    throw new Error(
+      'useJSONRendererContextDispatch must be used within a JSONRendererContextDispatch',
+    );
   }
   return context;
 }

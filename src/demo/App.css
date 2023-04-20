@@ -44,3 +44,7 @@
 .mobile {
   width: 320px;
 }
+
+.full-width {
+  width: 100%;
+}

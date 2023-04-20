@@ -4,9 +4,6 @@ import { TDataType } from '../../types';
 export interface IProps<T> {
   treeData: TBuildTreeData<T>;
   children: ReactNode;
-  // config
-  collapsible?: boolean;
-  viewerUseQuotes?: boolean;
 }
 export type TTreeDescription = {
   uniqueId: string;
@@ -44,9 +41,6 @@ export interface IJSONRendererContextActions {
   addNode: (descriptor: TTreeDescription, newType: TDataType, key?: string, newValue?: any) => void;
   removeNode: (descriptor: TTreeDescription) => void;
   updateNode: (descriptor: TTreeDescription, update: TUpdateDetails) => void;
-}
-export interface IJSONRendererContext<T> {
-  treeData: TBuildTreeData<T>;
 }
 
 export interface IJSONRendererContextConfig {
