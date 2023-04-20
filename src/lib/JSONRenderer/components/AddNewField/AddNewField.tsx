@@ -33,7 +33,6 @@ const AddNewField: FC<IProps> = ({
     if (!field && treeDescriptor.type === 'object') {
       setError("Field name can't be empty.");
     } else {
-      console.log('Add to:', treeDescriptor, selectedType);
       setError('');
       const newValue = selectedType !== 'array' && selectedType !== 'object' ? value : undefined;
       addNode(treeDescriptor, selectedType, field, newValue);

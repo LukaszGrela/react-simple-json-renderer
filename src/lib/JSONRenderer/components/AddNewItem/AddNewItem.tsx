@@ -21,7 +21,6 @@ const AddNewItem: FC<IProps> = ({ treeDescriptor }): JSX.Element => {
     if (!field && treeDescriptor.type === 'object') {
       setError("Field name can't be empty.");
     } else {
-      console.log('Add to:', treeDescriptor, selectedType);
       setError('');
       addNode(treeDescriptor, selectedType, field);
     }
