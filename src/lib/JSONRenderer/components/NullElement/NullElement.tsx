@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { classnames } from '../../utils/classnames';
 import { IProps } from './types';
 import { Value } from '../Value';
@@ -22,8 +22,8 @@ const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
   };
   const handleApplyEdit = useCallback(
     (update: TUpdateDetails): void => {
-    setEditing(false);
-    updateNode(treeDescriptor, update);
+      setEditing(false);
+      updateNode(treeDescriptor, update);
     },
     [treeDescriptor, updateNode],
   );
