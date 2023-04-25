@@ -41,7 +41,7 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
   return traverse(tree);
 };
 
-const Editor: TViewer = (): JSX.Element => {
+const Viewer: TViewer = (): JSX.Element => {
   const { wrapper, tree } = useJSONRendererContext();
 
   const components = useMemo(() => buildComponents(tree, wrapper), [tree, wrapper]);
@@ -53,4 +53,4 @@ const Editor: TViewer = (): JSX.Element => {
   );
 };
 
-export default React.memo(Editor);
+export default React.memo(Viewer);
