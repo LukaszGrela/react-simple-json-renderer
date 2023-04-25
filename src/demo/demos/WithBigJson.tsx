@@ -1,53 +1,6 @@
-import { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { JSONRenderer } from '~/lib';
-import { WithEmptyObject } from './demos/WithEmptyObject';
-import { WithEmptyArray } from './demos/WithEmptyArray';
-
-import './App.css';
-import { WithBigJson } from './demos/WithBigJson';
-
-const source = {
-  mobile: {
-    possibleCountryCodes: ['KE', 'UG', 'TZ'],
-    possibleLengths: {
-      national: '5',
-      sub_national: '7',
-    },
-    exampleNumber: 40123,
-    nationalNumberPattern: '4\\d{4}',
-  },
-  id: 'AC',
-  is_valid_number: true,
-  generalDesc: {
-    nationalNumberPattern: '[46]\\d{4}|[01589]\\d{5}',
-  },
-  countryCode: '247',
-  uan: {
-    possibleLengths: {
-      national: '6',
-    },
-    exampleNumber: 542011,
-    nationalNumberPattern: '[01589]\\d{5}',
-  },
-  references: {
-    sourceUrl: 'http://www.itu.int/oth/T02020000AF/en',
-  },
-  internationalPrefix: '00',
-  fixedLine: {
-    possibleLengths: {
-      national: '5',
-    },
-    exampleNumber: 62889,
-    nationalNumberPattern: '6[2-467]\\d{3}',
-  },
-  func: () => console.log('42'),
-  hugeOne: BigInt(9007199254740991),
-  symbol: Symbol('test'),
-  nullValue: null,
-  undefinedValue: undefined,
-  emptyObject: {},
-  emptyArray: [],
-};
+import { DemoWrapper } from './DemoWrapper';
 
 const bigjson = {
   name: 'react-json-editor-viewer-ts',
@@ -237,72 +190,16 @@ const bigjson = {
     },
   },
 };
-const App: FC = () => {
-  const [demo, setDemo] = useState(0);
-  const handleClick = (id: number) => () => {
-    setDemo(id);
-  };
+
+export const WithBigJson: FC = (): JSX.Element => {
   return (
-    <div className='App'>
-      <header>
-        <h1>JSONRenderer Demo</h1>
-      </header>
-      <menu>
-        <h2>Select demo</h2>
-        <ul>
-          <li>
-            {' '}
-            <button
-              className={demo === 0 ? 'selected' : undefined}
-              type='button'
-              onClick={handleClick(0)}
-            >
-              With empty object
-            </button>
-          </li>
-          <li>
-            {' '}
-            <button
-              className={demo === 0 ? 'selected' : undefined}
-              type='button'
-              onClick={handleClick(1)}
-            >
-              With empty array
-            </button>
-          </li>
-          <li>
-            {' '}
-            <button
-              className={demo === 0 ? 'selected' : undefined}
-              type='button'
-              onClick={handleClick(2)}
-            >
-              With big JSON
-            </button>
-          </li>
-        </ul>
-      </menu>
-      <main>
-        {demo === 0 && <WithEmptyObject />}
-        {demo === 1 && <WithEmptyArray />}
-        {demo === 2 && <WithBigJson />}
-      </main>
-      <footer>
-        Made with{' '}
-        <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
-          Vite
-        </a>{' '}
-        +{' '}
-        <a href='https://reactjs.org' target='_blank' rel='noreferrer'>
-          React
-        </a>{' '}
-        +{' '}
-        <a href='https://www.typescriptlang.org/' target='_blank' rel='noreferrer'>
-          TypeScript
-        </a>
-      </footer>
-    </div>
+    <DemoWrapper>
+      {({ useEditor, useViewer, collapsible, viewerUseQuotes }) => (
+        <JSONRenderer data={bigjson} collapsible={collapsible} viewerUseQuotes={viewerUseQuotes}>
+          {useEditor && <JSONRenderer.Editor />}
+          {useViewer && <JSONRenderer.Viewer />}
+        </JSONRenderer>
+      )}
+    </DemoWrapper>
   );
 };
-
-export default App;
