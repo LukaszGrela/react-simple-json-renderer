@@ -249,9 +249,8 @@ const App: FC = () => {
       </header>
       <menu>
         <h2>Select demo</h2>
-        <ul>
+        <ul className='demo-menu'>
           <li>
-            {' '}
             <button
               className={demo === 0 ? 'selected' : undefined}
               type='button'
@@ -261,9 +260,8 @@ const App: FC = () => {
             </button>
           </li>
           <li>
-            {' '}
             <button
-              className={demo === 0 ? 'selected' : undefined}
+              className={demo === 1 ? 'selected' : undefined}
               type='button'
               onClick={handleClick(1)}
             >
@@ -271,9 +269,8 @@ const App: FC = () => {
             </button>
           </li>
           <li>
-            {' '}
             <button
-              className={demo === 0 ? 'selected' : undefined}
+              className={demo === 2 ? 'selected' : undefined}
               type='button'
               onClick={handleClick(2)}
             >
@@ -288,6 +285,10 @@ const App: FC = () => {
         {demo === 2 && <WithBigJson />}
       </main>
       <footer>
+        <a href='https://greladesign.co/blog' target='_blank' rel='noreferrer'>
+          GrelaDesign.co
+        </a>
+        {' - '}
         Made with{' '}
         <a href='https://vitejs.dev' target='_blank' rel='noreferrer'>
           Vite

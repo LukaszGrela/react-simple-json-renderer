@@ -28,29 +28,33 @@ export const DemoWrapper: FC<{
           className={state.useEditor ? 'selected' : undefined}
           type='button'
           onClick={handleClick('useEditor')}
+          title={`${!state.useEditor ? 'Use' : 'Remove'} Editor`}
         >
-          {!state.useEditor ? 'Use' : 'Remove'} Editor
+          Editor
         </button>{' '}
         <button
           className={state.useViewer ? 'selected' : undefined}
           type='button'
           onClick={handleClick('useViewer')}
+          title={`${!state.useViewer ? 'Use' : 'Remove'} Viewer`}
         >
-          {!state.useViewer ? 'Use' : 'Remove'} Viewer
+          Viewer
         </button>{' '}
         <button
           className={state.collapsible ? 'selected' : undefined}
           type='button'
           onClick={handleClick('collapsible')}
+          title={`${!state.collapsible ? 'Make' : 'Turn off'} Collapsible`}
         >
-          {!state.collapsible ? 'Make' : 'Turn off'} Collapsible
+          Collapsible
         </button>{' '}
         <button
           className={state.viewerUseQuotes ? 'selected' : undefined}
           type='button'
           onClick={handleClick('viewerUseQuotes')}
+          title={`${!state.viewerUseQuotes ? 'Use' : "Don't use"} quotes`}
         >
-          {!state.viewerUseQuotes ? 'Use' : "Don't use"} quotes
+          Use quotes
         </button>
       </div>
       {children(state)}
