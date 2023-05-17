@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { JSONRenderer } from '~/lib';
 import { DemoWrapper } from './DemoWrapper';
 export const WithEmptyObject: FC = (): JSX.Element => {
