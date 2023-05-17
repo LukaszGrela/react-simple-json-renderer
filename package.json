@@ -1,6 +1,6 @@
 {
   "name": "react-simple-json-renderer",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "React JSON Editor and JSON Viewer",
   "type": "module",
   "license": "MIT",
@@ -69,5 +69,18 @@
       "require": "./dist/react-simple-json-renderer.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
-  }
+  },
+  "author": "Lukasz 'Severiaan' Grela",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LukaszGrela/react-simple-json-renderer"
+  },
+  "bugs": {
+    "url": "https://github.com/LukaszGrela/react-simple-json-renderer/issues"
+  },
+  "keywords": [
+    "json",
+    "viewer",
+    "editor"
+  ]
 }
