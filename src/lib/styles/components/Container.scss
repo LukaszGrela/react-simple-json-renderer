@@ -87,7 +87,7 @@ div.Container {
   }
 
   /* narrow modifier */
-  &.narrow > .Children > .Leaf {
+  .narrow & > .Children > .Leaf {
     flex-direction: column;
     justify-items: stretch;
 

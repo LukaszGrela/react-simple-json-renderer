@@ -1,7 +1,6 @@
-import { FC, useRef, useState, forwardRef, useCallback } from 'react';
+import { FC, useState, forwardRef, useCallback } from 'react';
 import { classnames } from '../../utils/classnames';
 import { useJSONRendererContextConfig } from '../../context';
-import { useResizeObserver } from '../../utils/useResizeObserver';
 import { IProps, IWrapperProps } from './types';
 import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
@@ -16,13 +15,6 @@ import { wrapWithQuotes } from '../../utils/string';
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
   const { collapsible } = useJSONRendererContextConfig();
   const [isCollapsed, setCollapsed] = useState(false);
-  const [narrow, setNarrow] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const callback = (entries: ResizeObserverEntry[]) => {
-    const div = entries[0];
-    setNarrow(div?.contentRect.width <= 320);
-  };
-  useResizeObserver(ref, callback);
 
   const [inlineEditing, setInlineEditing] = useState(false);
 
@@ -50,8 +42,6 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
     <ContainerWrapper
       collapsible={collapsible}
       onCollapse={handleWrapperCollapsed}
-      ref={ref}
-      className={narrow && 'narrow'}
       type={type}
       treeDescriptor={treeDescriptor}
       toolbox={
