@@ -2,8 +2,7 @@ import { buildTree, JSONRendererConfigProvider, JSONRendererProvider } from './c
 import { IProps } from './types';
 import { Editor } from './Editor';
 import { Viewer } from './Viewer';
-
-import '../styles.scss';
+import { SizeContainer } from './components/SizeContainer';
 
 function JSONRenderer<T = any>({
   children,
@@ -17,7 +16,7 @@ function JSONRenderer<T = any>({
   return (
     <JSONRendererConfigProvider collapsible={collapsible} viewerUseQuotes={viewerUseQuotes}>
       <JSONRendererProvider treeData={treeData}>
-        <div className='JSONRenderer'>{children}</div>
+        <SizeContainer className='JSONRenderer'>{children}</SizeContainer>
       </JSONRendererProvider>
     </JSONRendererConfigProvider>
   );

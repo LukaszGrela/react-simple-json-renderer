@@ -4,8 +4,13 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0.5rem;
+  width: 100%;
 
   font-family: $font-family;
   font-size: $font-size;
   color: $font-color;
+
+  &.narrower {
+    flex-direction: column;
+  }
 }
