@@ -165,7 +165,6 @@ export function treeTraverser<N>(
  * @returns object with definitions for `JSONRenderer`
  */
 export function buildTree<T = any>(data: T): TBuildTreeData<T> {
-  console.info('buildTree', data);
   const tree: TTree = {};
 
   if (typeof data !== 'object' || data === null) {

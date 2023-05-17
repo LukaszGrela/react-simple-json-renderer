@@ -33,7 +33,6 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
     setEditing(false);
   };
   const handleApplyEdit = (update: TUpdateDetails): void => {
-    console.log('To update', update);
     setEditing(false);
     if (value !== update.value) {
       setValue(update.value);
