@@ -30,6 +30,7 @@ export default defineConfig({
   ],
   base: './',
   build: {
+    cssCodeSplit: false,
     lib: {
       entry: path.resolve(__dirname, 'src/lib/index.ts'),
       name: getPackageNameCamelCase(),
