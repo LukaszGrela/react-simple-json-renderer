@@ -1,6 +1,6 @@
 import keys from 'lodash/keys';
 import cloneDeep from 'lodash/cloneDeep';
-import { TBuildTreeData, TTree, TTreeDescription } from './types';
+import { ROOT_NODE_NAME, TBuildTreeData, TTree, TTreeDescription } from './types';
 import { uniqueId } from '../utils/string';
 import { TDataType } from '../../types';
 
@@ -17,6 +17,10 @@ export const addPath = (basePath = '', pathElement = ''): string => {
   return `${basePath}.${pathElement}`;
 };
 
+const rootRegex = new RegExp(`${ROOT_NODE_NAME}\\.?`, 'g');
+export const stripWrapperPath = (path: string): string => {
+  return path.replace(rootRegex, '');
+};
 /**
  * Convert the data path to the `TTree` path.
  * @param path data path
@@ -172,23 +176,23 @@ export function buildTree<T = any>(data: T): TBuildTreeData<T> {
   }
 
   const body = cloneDeep(data);
-  // wrap it with internal root node
+  // wrap it with internal ROOT_NODE_NAME node
   const wrapper = {
-    root: body, // body can be anything, wrap it with an object with `root` field.
+    [ROOT_NODE_NAME]: body, // body can be anything, wrap it with an object with `ROOT_NODE_NAME` field.
   };
   // init tree
-  tree.root = {
-    path: 'root',
-    type: Array.isArray(wrapper.root) ? 'array' : 'object',
+  tree[ROOT_NODE_NAME] = {
+    path: ROOT_NODE_NAME,
+    type: Array.isArray(wrapper[ROOT_NODE_NAME]) ? 'array' : 'object',
     level: 0,
-    key: 'root',
+    key: ROOT_NODE_NAME,
     uniqueId: uniqueId(),
     childrenLength: 0,
     parentType: null,
   };
 
   // start traversing
-  treeTraverser(wrapper.root, 'root', 1, tree.root);
+  treeTraverser(wrapper[ROOT_NODE_NAME], ROOT_NODE_NAME, 1, tree[ROOT_NODE_NAME]);
 
   return {
     tree,

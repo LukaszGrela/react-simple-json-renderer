@@ -1,6 +1,8 @@
 import { ReactNode } from 'react';
 import { TDataType } from '../../types';
 
+export const ROOT_NODE_NAME = '__root' as const;
+
 export interface IProps<T> {
   treeData: TBuildTreeData<T>;
   children: ReactNode;
@@ -18,7 +20,7 @@ export type TTreeDescription = {
 export type TTree = { [key: string]: TTreeDescription };
 
 export type TBuildTreeData<T> = {
-  wrapper: { root: T };
+  wrapper: { [ROOT_NODE_NAME]: T };
   tree: TTree;
   changeIdentifier: string;
 };
