@@ -1,6 +1,6 @@
 import { FC, useState, forwardRef, useCallback } from 'react';
 import { classnames } from '../../utils/classnames';
-import { ROOT_NODE_NAME, useJSONRendererContextConfig } from '../../context';
+import { EBuiltInKeys, useJSONRendererContextConfig } from '../../context';
 import { IProps, IWrapperProps } from './types';
 import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
@@ -62,7 +62,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
               />
             </>
           )}
-          {!(treeDescriptor.key === ROOT_NODE_NAME && treeDescriptor.level === 0) && (
+          {!(treeDescriptor.key === EBuiltInKeys.ROOT && treeDescriptor.level === 0) && (
             <RemoveButton treeDescriptor={treeDescriptor} />
           )}
         </Toolbox>

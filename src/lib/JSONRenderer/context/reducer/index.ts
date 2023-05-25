@@ -16,7 +16,7 @@ import {
   stripWrapperPath,
 } from '../utils';
 import { uniqueId } from '../../utils/string';
-import { TAction, TBuildTreeData, TCallback, TTreeDescription } from '../types';
+import { EBuiltInKeys, TAction, TBuildTreeData, TCallback, TTreeDescription } from '../types';
 
 function castAsDraft<T>(element: T): Draft<T> {
   return element as Draft<T>;
@@ -29,8 +29,8 @@ const dataReducer: TDataReducer = (callback) => (draft, action) => {
     case 'removeNode':
       {
         const parentPath = getParentPath(action.identifier.path);
-        const tree = draft?.tree;
-        const wrapper = draft?.wrapper;
+        const tree = draft?.[EBuiltInKeys.TREE];
+        const wrapper = draft?.[EBuiltInKeys.WRAPPER];
         if (tree && wrapper) {
           const parentIdentifier = get(tree, toTreePath(parentPath));
           const parentData = get(wrapper, parentPath);
@@ -107,8 +107,8 @@ const dataReducer: TDataReducer = (callback) => (draft, action) => {
 
     case 'addNode':
       {
-        const tree = draft?.tree;
-        const wrapper = draft?.wrapper;
+        const tree = draft?.[EBuiltInKeys.TREE];
+        const wrapper = draft?.[EBuiltInKeys.WRAPPER];
         if (tree && wrapper) {
           // container path
           const containerTreeNode = get(tree, toTreePath(action.identifier.path));
@@ -190,8 +190,8 @@ const dataReducer: TDataReducer = (callback) => (draft, action) => {
 
     case 'updateNode':
       {
-        const tree = draft?.tree;
-        const wrapper = draft?.wrapper;
+        const tree = draft?.[EBuiltInKeys.TREE];
+        const wrapper = draft?.[EBuiltInKeys.WRAPPER];
         if (tree && wrapper) {
           const { identifier, update } = action;
           const parentPath = getParentPath(identifier.path);

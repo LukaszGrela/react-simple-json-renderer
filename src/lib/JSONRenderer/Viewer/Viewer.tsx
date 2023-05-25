@@ -42,9 +42,12 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
 };
 
 const Viewer: TViewer = (): JSX.Element => {
-  const { wrapper, tree } = useJSONRendererContext();
+  const context = useJSONRendererContext();
 
-  const components = useMemo(() => buildComponents(tree, wrapper), [tree, wrapper]);
+  const components = useMemo(
+    () => buildComponents(context.$__tree, context.$__wrapper),
+    [context.$__tree, context.$__wrapper],
+  );
 
   return (
     <div className='Viewer'>

@@ -1,7 +1,21 @@
 import { ReactNode } from 'react';
 import { TDataType } from '../../types';
 
-export const ROOT_NODE_NAME = '__root' as const;
+export enum EBuiltInKeys {
+  ROOT = '$__root',
+
+  UNIQUE_ID = '$__uniqueId',
+  KEY = '$__key',
+  PATH = '$__path',
+  TYPE = '$__type',
+  PARENT_TYPE = '$__parentType',
+  LEVEL = '$__level',
+  CHILDREN = '$__children',
+  CHILDREN_LENGTH = '$__childrenLength',
+  WRAPPER = '$__wrapper',
+  TREE = '$__tree',
+  CHANGE_IDENTIFIER = '$__changeIdentifier',
+}
 
 export interface IProps<T> {
   treeData: TBuildTreeData<T>;
@@ -20,9 +34,9 @@ export type TTreeDescription = {
 export type TTree = { [key: string]: TTreeDescription };
 
 export type TBuildTreeData<T> = {
-  wrapper: { [ROOT_NODE_NAME]: T };
-  tree: TTree;
-  changeIdentifier: string;
+  [EBuiltInKeys.WRAPPER]: { [EBuiltInKeys.ROOT]: T };
+  [EBuiltInKeys.TREE]: TTree;
+  [EBuiltInKeys.CHANGE_IDENTIFIER]: string;
 };
 
 type TUpdateProps = {
