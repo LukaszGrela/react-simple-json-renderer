@@ -1,8 +1,12 @@
 # Change Log
 
-## [0.9.2] - 2023-05-26
+## [0.9.3] - 2023-05-26
 
 - Fix bug with empty string as a key
+
+## [0.9.2] - 2023-05-17
+
+- Update package with npm usefull keys
 
 ## [0.9.1] - 2023-05-17
 
