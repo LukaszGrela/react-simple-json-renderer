@@ -20,6 +20,7 @@ export enum EBuiltInKeys {
 export interface IProps<T> {
   treeData: TBuildTreeData<T>;
   children: ReactNode;
+  onChange?: TCallback;
 }
 export type TTreeDescription = {
   uniqueId: string;
@@ -96,3 +97,10 @@ export interface IUpdateNodeAction extends IContextAction {
 }
 
 export type TAction = IRemoveNodeAction | IAddNodeAction | IUpdateNodeAction;
+
+export type TCallback = (
+  type: TAction['type'],
+  path: string,
+  dataType: TDataType,
+  value?: any,
+) => void;

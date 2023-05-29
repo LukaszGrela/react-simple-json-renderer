@@ -195,7 +195,12 @@ export const WithBigJson: FC = (): JSX.Element => {
   return (
     <DemoWrapper>
       {({ useEditor, useViewer, collapsible, viewerUseQuotes }) => (
-        <JSONRenderer data={bigjson} collapsible={collapsible} viewerUseQuotes={viewerUseQuotes}>
+        <JSONRenderer
+          data={bigjson}
+          collapsible={collapsible}
+          viewerUseQuotes={viewerUseQuotes}
+          onChange={console.log}
+        >
           {useEditor && <JSONRenderer.Editor />}
           {useViewer && <JSONRenderer.Viewer />}
         </JSONRenderer>

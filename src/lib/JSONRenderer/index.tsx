@@ -7,15 +7,16 @@ import { SizeContainer } from './components/SizeContainer';
 function JSONRenderer<T = any>({
   children,
   data,
+  onChange,
   collapsible = true,
   viewerUseQuotes = false,
 }: IProps<T>) {
   // build initial data tree
   const treeData = buildTree(data);
-
+  console.log(treeData);
   return (
     <JSONRendererConfigProvider collapsible={collapsible} viewerUseQuotes={viewerUseQuotes}>
-      <JSONRendererProvider treeData={treeData}>
+      <JSONRendererProvider treeData={treeData} onChange={onChange}>
         <SizeContainer className='JSONRenderer'>{children}</SizeContainer>
       </JSONRendererProvider>
     </JSONRendererConfigProvider>
