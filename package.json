@@ -1,6 +1,6 @@
 {
   "name": "react-simple-json-renderer",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "React JSON Editor and JSON Viewer",
   "type": "module",
   "license": "MIT",
@@ -14,7 +14,8 @@
     "prettier:fix": "npm run prettier -- --write",
     "format": "npm run prettier:fix && npm run lint:fix",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "react": ">=16.9.0",

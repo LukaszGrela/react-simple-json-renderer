@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.9.4] - 2023-05-29
+
+- onChange callback
+
 ## [0.9.3] - 2023-05-26
 
 - Fix bug with empty string as a key
