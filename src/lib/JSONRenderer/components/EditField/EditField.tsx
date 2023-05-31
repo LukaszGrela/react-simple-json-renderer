@@ -5,7 +5,7 @@ import { classnames } from '../../utils/classnames';
 import { escapeFieldName } from '../../utils/fieldName';
 import { setAutoFocus } from '../../utils/setAutoFocus';
 import { Button } from '../Button';
-import { IconConfirm, IconRemove } from '../icons';
+import SVGIcon from '../SVGIcon/SVGIcon';
 import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { Value } from '../Value';
@@ -110,14 +110,14 @@ const EditField: FC<IProps> = ({
           type='button'
           onClick={handleApplyChanges}
           title='Apply changes'
-          icon={<IconConfirm />}
+          icon={<SVGIcon icon='confirm' />}
         />
         <Button
           className='negative'
           type='button'
           onClick={cancel}
           title='Cancel changes'
-          icon={<IconRemove />}
+          icon={<SVGIcon icon='close' />}
         />
       </Toolbox>
     </div>

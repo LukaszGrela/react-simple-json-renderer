@@ -9,7 +9,7 @@ import { Label } from '../Label';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 import { Button } from '../Button';
 import { EditField } from '../EditField';
-import { IconEdit } from '../icons';
+import SVGIcon from '../SVGIcon/SVGIcon';
 
 const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
   const { updateNode } = useJSONRendererContextActions();
@@ -76,11 +76,11 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
       <Toolbox>
         <RemoveButton treeDescriptor={treeDescriptor} />
         <Button
-          className={'negative'}
+          className={'positive'}
           type={'button'}
           onClick={handleEdit}
           title={'Edit element'}
-          icon={<IconEdit />}
+          icon={<SVGIcon icon='edit' />}
         />
       </Toolbox>
     </div>

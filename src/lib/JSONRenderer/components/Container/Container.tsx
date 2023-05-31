@@ -11,8 +11,8 @@ import { AddNewItem } from '../AddNewItem';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 import { AddNewField } from '../AddNewField';
 import { wrapWithQuotes } from '../../utils/string';
-import { IconAdd } from '../icons';
 import { CollapseButton } from '../CollapseButton';
+import SVGIcon from '../SVGIcon/SVGIcon';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
   const { collapsible, hideRootName } = useJSONRendererContextConfig();
@@ -61,7 +61,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
                 type='button'
                 onClick={handleInlineEditing}
                 title={title}
-                icon={<IconAdd />}
+                icon={<SVGIcon icon='add' />}
               />
             </>
           )}

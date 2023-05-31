@@ -8,8 +8,8 @@ import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { Value } from '../Value';
-import { IconConfirm, IconRemove } from '../icons';
 import { setAutoFocus } from '../../utils/setAutoFocus';
+import SVGIcon from '../SVGIcon/SVGIcon';
 
 const AddNewField: FC<IProps> = ({
   treeDescriptor,
@@ -103,14 +103,14 @@ const AddNewField: FC<IProps> = ({
           type='button'
           onClick={handleNewItem}
           title='Apply changes'
-          icon={<IconConfirm />}
+          icon={<SVGIcon icon='confirm' />}
         />
         <Button
           className='negative'
           type='button'
           onClick={cancel}
           title='Cancel changes'
-          icon={<IconRemove />}
+          icon={<SVGIcon icon='close' />}
         />
       </Toolbox>
     </div>

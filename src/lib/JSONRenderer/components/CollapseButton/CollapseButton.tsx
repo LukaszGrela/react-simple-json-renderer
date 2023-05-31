@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../Button';
-import { IconTrianglePointingDown, IconTrianglePointingRight } from '../icons';
+import SVGIcon from '../SVGIcon/SVGIcon';
 import { IProps } from './types';
 
 export const CollapseButton: React.FC<IProps> = ({ onClick, collapsed }): JSX.Element => {
@@ -14,7 +14,7 @@ export const CollapseButton: React.FC<IProps> = ({ onClick, collapsed }): JSX.El
       type='button'
       onClick={toggleCollapse}
       title={title}
-      icon={!collapsed ? <IconTrianglePointingDown /> : <IconTrianglePointingRight />}
+      icon={collapsed ? <SVGIcon icon='collapse' /> : <SVGIcon icon='expand' />}
     />
   );
 };

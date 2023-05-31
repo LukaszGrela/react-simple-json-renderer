@@ -8,7 +8,7 @@ import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { TDataType } from '~/lib/types';
-import { IconAdd } from '../icons';
+import SVGIcon from '../SVGIcon/SVGIcon';
 
 const AddNewItem: FC<IProps> = ({ treeDescriptor }): JSX.Element => {
   const [error, setError] = useState('');
@@ -74,7 +74,7 @@ const AddNewItem: FC<IProps> = ({ treeDescriptor }): JSX.Element => {
           type='button'
           onClick={handleNewItem}
           title={title}
-          icon={<IconAdd />}
+          icon={<SVGIcon icon='add' />}
         />
       </Toolbox>
     </div>

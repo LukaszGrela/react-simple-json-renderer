@@ -37,13 +37,14 @@ div.Container {
   & > span.Label {
     display: flex;
     justify-content: flex-start;
-    align-items: baseline;
+    align-items: center;
 
     &.with-toolbox > .Toolbox {
       margin-left: 0.25rem;
     }
 
     & .Button.collapse {
+      margin-right: 2px;
       &:focus,
       &:focus-visible {
         outline: none;
