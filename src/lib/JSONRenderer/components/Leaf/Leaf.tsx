@@ -19,18 +19,24 @@ const Leaf: FC<IProps> = ({ treeDescriptor, value }): JSX.Element => {
       )}
     >
       <Label fieldName={treeDescriptor.key}>
-        {(escapedLabel) => (
-          <span className='wrapper'>{`${wrapWithQuotes(
-            escapedLabel,
-            'string',
-            viewerUseQuotes,
-          )}:`}</span>
-        )}
+        {(escapedLabel) =>
+          treeDescriptor.parentType !== 'array' ? (
+            <span className='wrapper'>{`${wrapWithQuotes(
+              escapedLabel,
+              'string',
+              viewerUseQuotes,
+            )}:`}</span>
+          ) : null
+        }
       </Label>
       <Value
         editable={false}
         dataType={treeDescriptor.type}
-        value={wrapWithQuotes(value, treeDescriptor.type, viewerUseQuotes)}
+        value={`${wrapWithQuotes(
+          value,
+          treeDescriptor.type,
+          viewerUseQuotes || treeDescriptor.type === 'string',
+        )}${treeDescriptor.parentType === 'array' ? ',' : ''}`}
       />
     </div>
   );

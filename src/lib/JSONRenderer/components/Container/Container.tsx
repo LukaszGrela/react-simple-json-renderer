@@ -129,7 +129,8 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
               {collapsible && treeDescriptor.children !== undefined && (
                 <CollapseButton collapsed={collapsed} onClick={toggleCollapse} />
               )}
-              {hideRootName && treeDescriptor.key === EBuiltInKeys.ROOT ? (
+              {(hideRootName && treeDescriptor.key === EBuiltInKeys.ROOT) ||
+              (viewer && treeDescriptor.parentType === 'array') ? (
                 <span className='wrapper' />
               ) : (
                 <span className='wrapper'>{`${wrapWithQuotes(escapedLabel, 'string', useQuotes)}${
