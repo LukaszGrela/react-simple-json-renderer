@@ -1,10 +1,12 @@
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useLayoutEffect, useRef } from 'react';
 import { TDataType } from '../../../types';
+import { setAutoFocus } from '../../utils/setAutoFocus';
 
 type TEditableProps = {
   editable: true;
   onChange: <T = any>(newValue: T) => void;
   dataPath: string;
+  focusable?: boolean;
 };
 type TNonEditableProps = {
   editable: false;
@@ -21,7 +23,13 @@ function EditableValue<T = any>({
   dataType,
   onChange,
   dataPath,
+  focusable,
 }: TEditableProps & TValue<T>): JSX.Element {
+  const firstFocusedItemRef = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    focusable && setAutoFocus(firstFocusedItemRef.current);
+  }, [focusable]);
+
   const handleBooleanOnChange = useCallback(
     ({ target }: ChangeEvent<HTMLSelectElement>) => {
       onChange(target.value === 'true');
@@ -56,7 +64,12 @@ function EditableValue<T = any>({
           <label htmlFor={fieldNameId} hidden>
             Select value:
           </label>
-          <select id={fieldNameId} value={`${value}`} onChange={handleBooleanOnChange}>
+          <select
+            ref={firstFocusedItemRef as React.RefObject<HTMLSelectElement>}
+            id={fieldNameId}
+            value={`${value}`}
+            onChange={handleBooleanOnChange}
+          >
             <option value='true'>True</option>
             <option value='false'>False</option>
           </select>
@@ -70,7 +83,13 @@ function EditableValue<T = any>({
           <label htmlFor={fieldNameId} hidden>
             Edit value:
           </label>
-          <input id={fieldNameId} type={dataType} value={value as any} onChange={handleOnChange} />
+          <input
+            ref={firstFocusedItemRef as React.RefObject<HTMLInputElement>}
+            id={fieldNameId}
+            type={dataType}
+            value={value as any}
+            onChange={handleOnChange}
+          />
         </span>
       );
   }
@@ -85,6 +104,7 @@ const Value = <T,>(props: TProps<T>): JSX.Element => {
         dataType={dataType}
         dataPath={props.dataPath}
         editable
+        focusable={props.focusable}
         onChange={(data) => {
           props.onChange(data);
         }}

@@ -1,6 +1,7 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { classnames } from '../../utils/classnames';
 import { escapeFieldName } from '../../utils/fieldName';
+import { setAutoFocus } from '../../utils/setAutoFocus';
 import { useJSONRendererContextActions } from '../../context';
 import { IProps } from './types';
 import { Button } from '../Button';
@@ -35,6 +36,11 @@ const AddNewItem: FC<IProps> = ({ treeDescriptor }): JSX.Element => {
     setFieldName(target.value);
   }, []);
 
+  const firstFocusedItemRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => {
+    setAutoFocus(firstFocusedItemRef.current);
+  }, []);
+
   return (
     <div className={classnames('Element', 'Leaf', 'AddNewItem', `level-${treeDescriptor.level}`)}>
       <span className='Label'>{title}</span>
@@ -44,6 +50,7 @@ const AddNewItem: FC<IProps> = ({ treeDescriptor }): JSX.Element => {
             Add field name:
           </label>
           <input
+            ref={firstFocusedItemRef}
             id={fieldNameId}
             placeholder='Add field name'
             type={'text'}

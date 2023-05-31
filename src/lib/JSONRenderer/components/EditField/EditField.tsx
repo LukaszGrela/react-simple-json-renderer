@@ -1,8 +1,9 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { TDataType } from '~/lib/types';
 import { defaultValueByType, TUpdateDetails } from '../../context';
 import { classnames } from '../../utils/classnames';
 import { escapeFieldName } from '../../utils/fieldName';
+import { setAutoFocus } from '../../utils/setAutoFocus';
 import { Button } from '../Button';
 import { IconConfirm, IconRemove } from '../icons';
 import { Toolbox } from '../Toolbox';
@@ -60,7 +61,10 @@ const EditField: FC<IProps> = ({
     selectedType,
     value,
   ]);
-
+  const firstFocusedItemRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => {
+    setAutoFocus(firstFocusedItemRef.current);
+  }, []);
   return (
     <div className={classnames(className, 'EditField')}>
       <span className={classnames('Value', 'Value-editable', !!error && 'invalid')}>
@@ -70,6 +74,7 @@ const EditField: FC<IProps> = ({
               Change field name:
             </label>
             <input
+              ref={firstFocusedItemRef}
               id={fieldNameId}
               placeholder='Change field name'
               type={'text'}
@@ -90,6 +95,7 @@ const EditField: FC<IProps> = ({
       </span>
       :
       <Value
+        focusable
         editable
         dataPath={descriptor.path}
         dataType={selectedType}

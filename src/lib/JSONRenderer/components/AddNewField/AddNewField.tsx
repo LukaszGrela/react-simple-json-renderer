@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useCallback, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { TDataType } from '~/lib/types';
 import { classnames } from '../../utils/classnames';
 import { escapeFieldName } from '../../utils/fieldName';
@@ -9,6 +9,7 @@ import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { Value } from '../Value';
 import { IconConfirm, IconRemove } from '../icons';
+import { setAutoFocus } from '../../utils/setAutoFocus';
 
 const AddNewField: FC<IProps> = ({
   treeDescriptor,
@@ -50,6 +51,11 @@ const AddNewField: FC<IProps> = ({
     setFieldName(target.value);
   }, []);
 
+  const firstFocusedItemRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => {
+    setAutoFocus(firstFocusedItemRef.current);
+  }, []);
+
   return (
     <div className={classnames('Element', 'Leaf', 'AddNewField', `level-${treeDescriptor.level}`)}>
       <span
@@ -61,6 +67,7 @@ const AddNewField: FC<IProps> = ({
               Add field name:
             </label>
             <input
+              ref={firstFocusedItemRef}
               id={fieldNameId}
               placeholder='Add field name'
               type={'text'}
@@ -82,6 +89,7 @@ const AddNewField: FC<IProps> = ({
       :
       <Value
         editable
+        focusable
         dataPath={treeDescriptor.path}
         dataType={selectedType}
         value={value}
