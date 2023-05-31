@@ -1,5 +1,6 @@
 import { FC, useCallback } from 'react';
 import { classnames } from '~/lib/JSONRenderer/utils/classnames';
+import { IconRemove } from '../../icons';
 import { useJSONRendererContextActions } from '../../../context';
 import { Button } from '../../Button';
 import { IToolbarButtonProps } from '../types';
@@ -22,7 +23,7 @@ const RemoveButton: FC<Omit<IToolbarButtonProps, 'onClick' | 'icon'>> = ({
       type={type || 'button'}
       onClick={handleRemove}
       title={title || 'Remove element'}
-      icon={'×'}
+      icon={<IconRemove />}
     />
   );
 };

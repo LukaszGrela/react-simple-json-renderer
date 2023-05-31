@@ -9,6 +9,7 @@ import { Label } from '../Label';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 import { Button } from '../Button';
 import { EditField } from '../EditField';
+import { IconEdit } from '../icons';
 
 const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
   const { updateNode } = useJSONRendererContextActions();
@@ -79,7 +80,7 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
           type={'button'}
           onClick={handleEdit}
           title={'Edit element'}
-          icon={<>✎</>}
+          icon={<IconEdit />}
         />
       </Toolbox>
     </div>

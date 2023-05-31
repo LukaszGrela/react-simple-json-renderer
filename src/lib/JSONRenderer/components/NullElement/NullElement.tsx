@@ -8,6 +8,7 @@ import { RemoveButton } from '../Toolbox/RemoveButton';
 import { useJSONRendererContextActions, TUpdateDetails } from '../../context';
 import { EditField } from '../EditField';
 import { Button } from '../Button';
+import { IconEdit } from '../icons';
 
 const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
   const { updateNode } = useJSONRendererContextActions();
@@ -60,7 +61,7 @@ const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
           type={'button'}
           onClick={handleEdit}
           title={'Edit element'}
-          icon={<>✎</>}
+          icon={<IconEdit />}
         />
       </Toolbox>
     </div>

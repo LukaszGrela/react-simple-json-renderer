@@ -4,6 +4,7 @@ import { defaultValueByType, TUpdateDetails } from '../../context';
 import { classnames } from '../../utils/classnames';
 import { escapeFieldName } from '../../utils/fieldName';
 import { Button } from '../Button';
+import { IconConfirm, IconRemove } from '../icons';
 import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { Value } from '../Value';
@@ -103,14 +104,14 @@ const EditField: FC<IProps> = ({
           type='button'
           onClick={handleApplyChanges}
           title='Apply changes'
-          icon={<>&#10003;</>}
+          icon={<IconConfirm />}
         />
         <Button
           className='negative'
           type='button'
           onClick={cancel}
           title='Cancel changes'
-          icon={<>&#215;</>}
+          icon={<IconRemove />}
         />
       </Toolbox>
     </div>

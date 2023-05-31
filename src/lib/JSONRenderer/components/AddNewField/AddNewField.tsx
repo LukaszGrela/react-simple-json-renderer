@@ -8,6 +8,7 @@ import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
 import { TypeSelector } from '../TypeSelector';
 import { Value } from '../Value';
+import { IconConfirm, IconRemove } from '../icons';
 
 const AddNewField: FC<IProps> = ({
   treeDescriptor,
@@ -94,14 +95,14 @@ const AddNewField: FC<IProps> = ({
           type='button'
           onClick={handleNewItem}
           title='Apply changes'
-          icon={<>&#10003;</>}
+          icon={<IconConfirm />}
         />
         <Button
           className='negative'
           type='button'
           onClick={cancel}
           title='Cancel changes'
-          icon={<>&#215;</>}
+          icon={<IconRemove />}
         />
       </Toolbox>
     </div>

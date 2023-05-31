@@ -11,6 +11,8 @@ import { AddNewItem } from '../AddNewItem';
 import { RemoveButton } from '../Toolbox/RemoveButton';
 import { AddNewField } from '../AddNewField';
 import { wrapWithQuotes } from '../../utils/string';
+import { IconAdd } from '../icons';
+import { CollapseButton } from '../CollapseButton';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
   const { collapsible, hideRootName } = useJSONRendererContextConfig();
@@ -59,7 +61,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
                 type='button'
                 onClick={handleInlineEditing}
                 title={title}
-                icon={<>&#43;</>}
+                icon={<IconAdd />}
               />
             </>
           )}
@@ -125,13 +127,7 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
           {(escapedLabel) => (
             <>
               {collapsible && treeDescriptor.children !== undefined && (
-                <Button
-                  className='collapse'
-                  type='button'
-                  onClick={toggleCollapse}
-                  title='Collapse item'
-                  icon={!collapsed ? '▼' : '►'}
-                />
+                <CollapseButton collapsed={collapsed} onClick={toggleCollapse} />
               )}
               {hideRootName && treeDescriptor.key === EBuiltInKeys.ROOT ? (
                 <span className='wrapper' />
