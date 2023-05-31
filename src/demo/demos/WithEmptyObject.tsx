@@ -4,11 +4,12 @@ import { DemoWrapper } from './DemoWrapper';
 export const WithEmptyObject: FC = (): JSX.Element => {
   return (
     <DemoWrapper>
-      {({ useEditor, useViewer, collapsible, viewerUseQuotes }) => (
+      {({ useEditor, useViewer, collapsible, viewerUseQuotes, hideRootName }) => (
         <JSONRenderer
           data={{}}
           collapsible={collapsible}
           viewerUseQuotes={viewerUseQuotes}
+          hideRootName={hideRootName}
           onChange={console.log}
         >
           {useEditor && <JSONRenderer.Editor />}

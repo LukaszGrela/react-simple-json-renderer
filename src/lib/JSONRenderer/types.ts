@@ -8,6 +8,7 @@ export interface IProps<T> {
   children: ReactNode;
   collapsible?: boolean;
   viewerUseQuotes?: boolean;
+  hideRootName?: boolean;
   onChange?: TCallback;
 }
 

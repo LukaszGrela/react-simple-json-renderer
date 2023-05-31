@@ -13,7 +13,7 @@ import { AddNewField } from '../AddNewField';
 import { wrapWithQuotes } from '../../utils/string';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
-  const { collapsible } = useJSONRendererContextConfig();
+  const { collapsible, hideRootName } = useJSONRendererContextConfig();
   const [isCollapsed, setCollapsed] = useState(false);
 
   const [inlineEditing, setInlineEditing] = useState(false);
@@ -40,6 +40,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
 
   return (
     <ContainerWrapper
+      hideRootName={hideRootName}
       collapsible={collapsible}
       onCollapse={handleWrapperCollapsed}
       type={type}
@@ -99,6 +100,7 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
       collapsible,
       useQuotes,
       viewer,
+      hideRootName,
     },
     ref,
   ): JSX.Element => {
@@ -131,11 +133,13 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
                   icon={!collapsed ? '▼' : '►'}
                 />
               )}
-              {
+              {hideRootName && treeDescriptor.key === EBuiltInKeys.ROOT ? (
+                <span className='wrapper' />
+              ) : (
                 <span className='wrapper'>{`${wrapWithQuotes(escapedLabel, 'string', useQuotes)}${
                   viewer ? ':' : ''
                 }`}</span>
-              }
+              )}
               {collapsed && (
                 <span className='brackets'>
                   {treeDescriptor.type === 'array' ? '[ … ]' : '{ … }'}
@@ -155,10 +159,16 @@ ContainerWrapper.displayName = 'ContainerWrapper';
 export const ViewerContainer: FC<Omit<IWrapperProps, 'collapsible' | 'useQuotes'>> = (
   props,
 ): JSX.Element => {
-  const { collapsible, viewerUseQuotes } = useJSONRendererContextConfig();
+  const { collapsible, viewerUseQuotes, hideRootName } = useJSONRendererContextConfig();
 
   return (
-    <ContainerWrapper collapsible={collapsible} useQuotes={viewerUseQuotes} {...props} viewer />
+    <ContainerWrapper
+      collapsible={collapsible}
+      useQuotes={viewerUseQuotes}
+      hideRootName={hideRootName}
+      {...props}
+      viewer
+    />
   );
 };
 ViewerContainer.displayName = 'ViewerContainer';

@@ -63,6 +63,7 @@ export interface IJSONRendererContextActions {
 export interface IJSONRendererContextConfig {
   collapsible: boolean;
   viewerUseQuotes: boolean;
+  hideRootName: boolean;
 }
 
 export interface IContextAction {

@@ -10,12 +10,17 @@ function JSONRenderer<T = any>({
   onChange,
   collapsible = true,
   viewerUseQuotes = false,
+  hideRootName = false,
 }: IProps<T>) {
   // build initial data tree
   const treeData = buildTree(data);
   console.log(treeData);
   return (
-    <JSONRendererConfigProvider collapsible={collapsible} viewerUseQuotes={viewerUseQuotes}>
+    <JSONRendererConfigProvider
+      collapsible={collapsible}
+      viewerUseQuotes={viewerUseQuotes}
+      hideRootName={hideRootName}
+    >
       <JSONRendererProvider treeData={treeData} onChange={onChange}>
         <SizeContainer className='JSONRenderer'>{children}</SizeContainer>
       </JSONRendererProvider>

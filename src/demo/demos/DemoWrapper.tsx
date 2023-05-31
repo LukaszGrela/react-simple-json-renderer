@@ -4,6 +4,7 @@ type TParams = {
   useEditor: boolean;
   useViewer: boolean;
   viewerUseQuotes?: boolean;
+  hideRootName?: boolean;
   collapsible?: boolean;
 };
 
@@ -15,6 +16,7 @@ export const DemoWrapper: FC<{
     useViewer: true,
     collapsible: false,
     viewerUseQuotes: false,
+    hideRootName: false,
   });
   const handleClick = (id: keyof TParams) => () => {
     setState((s) => {
@@ -55,6 +57,14 @@ export const DemoWrapper: FC<{
           title={`${!state.viewerUseQuotes ? 'Use' : "Don't use"} quotes`}
         >
           Use quotes
+        </button>{' '}
+        <button
+          className={state.hideRootName ? 'selected' : undefined}
+          type='button'
+          onClick={handleClick('hideRootName')}
+          title={`${!state.hideRootName ? 'Hide' : 'Show'} root name`}
+        >
+          Hide root name
         </button>
       </div>
       {children(state)}

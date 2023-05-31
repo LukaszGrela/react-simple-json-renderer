@@ -15,4 +15,5 @@ export interface IWrapperProps extends IProps {
   viewer?: boolean;
   collapsible?: boolean;
   useQuotes?: boolean;
+  hideRootName?: boolean;
 }
