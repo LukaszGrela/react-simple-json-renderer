@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.9.5] - 2023-06-01
+
+- New icons used
+- Auto focus input
+- Viewer: always quotes string values, don't display index field in array
+- Config: Add `hideRootName` option
+
 ## [0.9.4] - 2023-05-29
 
 - onChange callback
