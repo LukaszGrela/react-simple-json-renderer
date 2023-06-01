@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useCallback, useLayoutEffect, useRef, useState } from 
 import { TDataType } from '~/lib/types';
 import { defaultValueByType, TUpdateDetails } from '../../context';
 import { classnames } from '../../utils/classnames';
-import { escapeFieldName } from '../../utils/fieldName';
+import { escapeFieldName, unescapeFieldName } from '../../utils/fieldName';
 import { setAutoFocus } from '../../utils/setAutoFocus';
 import { Button } from '../Button';
 import SVGIcon from '../SVGIcon/SVGIcon';
@@ -78,7 +78,7 @@ const EditField: FC<IProps> = ({
               id={fieldNameId}
               placeholder='Change field name'
               type={'text'}
-              value={fieldName}
+              value={unescapeFieldName(fieldName)}
               onChange={handleFieldNameOnChange}
               aria-invalid={!!error}
               aria-describedby={`${fieldNameId}-error-message`}
@@ -90,7 +90,7 @@ const EditField: FC<IProps> = ({
             )}
           </>
         ) : (
-          `${fieldName}`
+          `${unescapeFieldName(fieldName)}`
         )}
       </span>
       :
