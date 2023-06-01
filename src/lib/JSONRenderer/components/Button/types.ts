@@ -7,4 +7,5 @@ export interface IProps {
   className?: TClassNamesArg;
   type?: string;
   title?: string;
+  disabled?: boolean;
 }

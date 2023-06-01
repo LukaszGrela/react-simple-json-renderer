@@ -1,12 +1,15 @@
 export type TIconType =
   | 'add'
   | 'ban'
-  | 'confirm'
-  | 'remove'
-  | 'edit'
+  | 'close'
   | 'collapse'
+  | 'confirm'
+  | 'copy'
+  | 'edit'
   | 'expand'
-  | 'close';
+  | 'failure'
+  | 'remove'
+  | 'success';
 export interface IProps {
   /**
    * The `IconTypesEnum` string

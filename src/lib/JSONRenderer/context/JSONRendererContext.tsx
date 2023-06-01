@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProps, TAction, TBuildTreeData } from './types';
+import { EBuiltInKeys, IProps, TAction, TBuildTreeData } from './types';
 import { useJSONRendererReducer } from './reducer';
 
 const JSONRendererContext = React.createContext<TBuildTreeData<any> | undefined>(undefined);
@@ -35,4 +35,14 @@ export function useJSONRendererContextDispatch() {
     );
   }
   return context;
+}
+
+type TUseSelectorCallback<R = any> = (state: TBuildTreeData<any>[EBuiltInKeys.WRAPPER]) => R;
+export function useSelector<R = any>(callback: TUseSelectorCallback<R>): R {
+  const context = React.useContext(JSONRendererContext);
+  if (context === undefined) {
+    throw new Error('useSelector must be used within a JSONRendererContext');
+  }
+
+  return callback(context[EBuiltInKeys.WRAPPER]);
 }

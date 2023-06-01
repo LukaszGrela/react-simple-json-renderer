@@ -13,6 +13,8 @@ import { AddNewField } from '../AddNewField';
 import { wrapWithQuotes } from '../../utils/string';
 import { CollapseButton } from '../CollapseButton';
 import SVGIcon from '../SVGIcon/SVGIcon';
+import { CopyButton } from '../Toolbox/CopyButton';
+import { unescapeFieldName } from '../../utils/fieldName';
 
 const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
   const { collapsible, hideRootName } = useJSONRendererContextConfig();
@@ -62,6 +64,14 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
                 onClick={handleInlineEditing}
                 title={title}
                 icon={<SVGIcon icon='add' />}
+              />
+              <CopyButton
+                title={
+                  treeDescriptor.key === EBuiltInKeys.ROOT
+                    ? 'Copy entire object'
+                    : `Copy ${unescapeFieldName(treeDescriptor.key)} node`
+                }
+                treeDescriptor={treeDescriptor}
               />
             </>
           )}

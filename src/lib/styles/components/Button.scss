@@ -12,6 +12,18 @@ button.Button {
   font-weight: bold;
   color: $font-color;
 
+  &.color {
+    &.positive {
+      color: $color-positive;
+    }
+    &.negative {
+      color: $color-negative;
+    }
+    &.neutral {
+      color: $color-neutral;
+    }
+  }
+
   &.positive:hover {
     color: $color-positive;
     border-color: transparent;
@@ -20,5 +32,14 @@ button.Button {
   &.negative:hover {
     color: $color-negative;
     border-color: transparent;
+  }
+
+  &.neutral:hover {
+    color: $color-neutral;
+    border-color: transparent;
+  }
+
+  &.disabled {
+    pointer-events: none;
   }
 }
