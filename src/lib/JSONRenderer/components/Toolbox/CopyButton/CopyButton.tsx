@@ -1,5 +1,6 @@
-import get from 'lodash/get';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import get from 'lodash/get';
 import { EBuiltInKeys, TBuildTreeData, useSelector } from '~/lib/JSONRenderer/context';
 import { classnames } from '~/lib/JSONRenderer/utils/classnames';
 import unescapeObjectsFieldName from '~/lib/JSONRenderer/utils/object/unescapeObjectsFieldName';
@@ -50,7 +51,7 @@ const CopyButton: React.FC<Omit<IToolbarButtonProps, 'onClick' | 'icon' | 'type'
     if (copied !== null) {
       intervalId = setTimeout(() => {
         setCopied(null);
-      }, 1000);
+      }, 2500);
     }
     return () => {
       if (intervalId) {
@@ -67,11 +68,21 @@ const CopyButton: React.FC<Omit<IToolbarButtonProps, 'onClick' | 'icon' | 'type'
       title={title || 'Copy'}
       disabled={copied !== null}
       icon={
-        copied === null ? (
-          <SVGIcon icon='copy' />
-        ) : (
-          <SVGIcon icon={copied === true ? 'success' : 'failure'} />
-        )
+        <SwitchTransition mode={'out-in'}>
+          <CSSTransition
+            timeout={350}
+            classNames='bounce'
+            key={copied === true ? 'success' : copied === false ? 'failure' : 'copy'}
+          >
+            {copied === null ? (
+              <SVGIcon icon='copy' />
+            ) : copied === true ? (
+              <SVGIcon icon={'success'} />
+            ) : (
+              <SVGIcon icon={'failure'} />
+            )}
+          </CSSTransition>
+        </SwitchTransition>
       }
     />
   );

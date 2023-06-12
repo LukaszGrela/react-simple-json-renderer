@@ -1,0 +1,45 @@
+.CopyButton {
+  .bounce {
+    /* This fires as soon as the element enters the DOM */
+    &-enter {
+      opacity: 0;
+      transform: scale(0);
+    }
+    /* This is where we can add the transition*/
+    &-enter-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    /* This fires as soon as the this.state.showList is false */
+    &-exit {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    /* fires as element leaves the DOM*/
+    &-exit-active {
+      opacity: 0;
+      transform: none;
+    }
+
+    &-enter-active,
+    &-exit-active {
+      transition: opacity 300ms, transform 300ms;
+    }
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  1% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+//   easeOutBack: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+//   bounceIn: `pop-in 300ms ${easings.easeOutBack} forwards`,
