@@ -39,3 +39,38 @@ const someData = {
 </JSONRenderer>
 
 ```
+
+### Configuration
+
+The `JSONRenderer` accepts `config` field with following options:
+
+```TypeScript
+interface IJSONRendererContextConfig {
+  collapsible: boolean;
+  viewerUseQuotes: boolean;
+  hideRootName: boolean;
+}
+```
+
+Following defaults are applied to it:
+
+```TypeScript
+const defaultConfig: IJSONRendererContextConfig = {
+  collapsible: true,
+  viewerUseQuotes: false,
+  hideRootName: true,
+};
+```
+
+#### collapsible
+
+Enables the option to fold/unfold object fields. Default to `true`.
+
+#### viewerUseQuotes
+
+Enables the option to display the field names wrapped in quotes. Default to `false`.
+
+#### hideRootName
+
+Enables the option to display the top level wrapper internal field name `$__root`. Default to `true`.
+Note: It is not exported when data is copied.

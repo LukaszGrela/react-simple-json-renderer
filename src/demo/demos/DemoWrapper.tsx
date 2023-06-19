@@ -1,12 +1,12 @@
 import { FC, ReactNode, useState } from 'react';
+import { defaultConfig } from '~/lib/JSONRenderer';
+import { SVGIcon } from '~/lib/JSONRenderer/components/SVGIcon';
+import { IJSONRendererContextConfig } from '~/lib/JSONRenderer/context';
 
 type TParams = {
   useEditor: boolean;
   useViewer: boolean;
-  viewerUseQuotes?: boolean;
-  hideRootName?: boolean;
-  collapsible?: boolean;
-};
+} & IJSONRendererContextConfig;
 
 export const DemoWrapper: FC<{
   children: (params: TParams) => ReactNode;
@@ -14,9 +14,7 @@ export const DemoWrapper: FC<{
   const [state, setState] = useState<TParams>({
     useEditor: true,
     useViewer: true,
-    collapsible: false,
-    viewerUseQuotes: false,
-    hideRootName: false,
+    ...defaultConfig,
   });
   const handleClick = (id: keyof TParams) => () => {
     setState((s) => {
@@ -25,6 +23,30 @@ export const DemoWrapper: FC<{
   };
   return (
     <div className='card'>
+      <div
+        className='card'
+        style={{
+          paddingTop: 0,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 12,
+          }}
+        >
+          <SVGIcon icon='add' emBased />
+          <SVGIcon icon='ban' emBased />
+          <SVGIcon icon='close' emBased />
+          <SVGIcon icon='collapse' emBased />
+          <SVGIcon icon='confirm' emBased />
+          <SVGIcon icon='copy' emBased />
+          <SVGIcon icon='edit' emBased />
+          <SVGIcon icon='expand' emBased />
+          <SVGIcon icon='remove' emBased />
+          <SVGIcon icon='success' emBased />
+          <SVGIcon icon='failure' emBased />
+        </div>
+      </div>
       <div className='demo-wrapper-toolbox'>
         <button
           className={state.useEditor ? 'selected' : undefined}

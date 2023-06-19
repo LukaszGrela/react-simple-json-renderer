@@ -1,26 +1,28 @@
-import { buildTree, JSONRendererConfigProvider, JSONRendererProvider } from './context';
+import {
+  buildTree,
+  IJSONRendererContextConfig,
+  JSONRendererConfigProvider,
+  JSONRendererProvider,
+} from './context';
 import { IProps } from './types';
 import { Editor } from './Editor';
 import { Viewer } from './Viewer';
 import { SizeContainer } from './components/SizeContainer';
 
-function JSONRenderer<T = any>({
-  children,
-  data,
-  onChange,
-  collapsible = true,
-  viewerUseQuotes = false,
-  hideRootName = false,
-}: IProps<T>) {
+export const defaultConfig: IJSONRendererContextConfig = {
+  collapsible: true,
+  viewerUseQuotes: false,
+  hideRootName: true,
+};
+function JSONRenderer<T = any>({ children, data, onChange, config }: IProps<T>) {
   // build initial data tree
   const treeData = buildTree(data);
-  console.log(treeData);
+  const configuration = {
+    ...defaultConfig,
+    ...config,
+  };
   return (
-    <JSONRendererConfigProvider
-      collapsible={collapsible}
-      viewerUseQuotes={viewerUseQuotes}
-      hideRootName={hideRootName}
-    >
+    <JSONRendererConfigProvider {...configuration}>
       <JSONRendererProvider treeData={treeData} onChange={onChange}>
         <SizeContainer className='JSONRenderer'>{children}</SizeContainer>
       </JSONRendererProvider>
