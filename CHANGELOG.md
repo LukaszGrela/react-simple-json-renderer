@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.9.6] - 2023-06-20
+
+- configuration to be passed as single `config` field object
+- Add copy to clipboard feature
+- Animated copy icon (to convey status information)
+- Unescape field name (to hide escaped `.` character)
+
 ## [0.9.5] - 2023-06-01
 
 - New icons used
