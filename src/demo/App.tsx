@@ -69,6 +69,10 @@ const App: FC = () => {
         +{' '}
         <a href='https://www.typescriptlang.org/' target='_blank' rel='noreferrer'>
           TypeScript
+        </a>{' '}
+        +{' '}
+        <a href='https://legendapp.com/open-source/state/' target='_blank' rel='noreferrer'>
+          Legend-State
         </a>
       </footer>
     </div>
