@@ -15,9 +15,13 @@ import { CollapseButton } from '../CollapseButton';
 import SVGIcon from '../SVGIcon/SVGIcon';
 import { CopyButton } from '../Toolbox/CopyButton';
 import { unescapeFieldName } from '../../utils/fieldName';
+import { observer } from '@legendapp/state/react';
 
-const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element => {
-  const { collapsible, hideRootName } = useJSONRendererContextConfig();
+const Container: FC<IProps> = observer(({ type, treeDescriptor, children }): JSX.Element => {
+  const config = useJSONRendererContextConfig();
+  const collapsible = config.collapsible.get();
+  const hideRootName = config.hideRootName.get();
+
   const [isCollapsed, setCollapsed] = useState(false);
 
   const [inlineEditing, setInlineEditing] = useState(false);
@@ -98,7 +102,7 @@ const Container: FC<IProps> = ({ type, treeDescriptor, children }): JSX.Element 
       )}
     </ContainerWrapper>
   );
-};
+});
 
 export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
   (
@@ -163,21 +167,24 @@ export const ContainerWrapper = forwardRef<HTMLDivElement, IWrapperProps>(
 );
 ContainerWrapper.displayName = 'ContainerWrapper';
 
-export const ViewerContainer: FC<Omit<IWrapperProps, 'collapsible' | 'useQuotes'>> = (
-  props,
-): JSX.Element => {
-  const { collapsible, viewerUseQuotes, hideRootName } = useJSONRendererContextConfig();
+export const ViewerContainer: FC<Omit<IWrapperProps, 'collapsible' | 'useQuotes'>> = observer(
+  (props): JSX.Element => {
+    const config = useJSONRendererContextConfig();
+    const collapsible = config.collapsible.get();
+    const hideRootName = config.hideRootName.get();
+    const viewerUseQuotes = config.viewerUseQuotes.get();
 
-  return (
-    <ContainerWrapper
-      collapsible={collapsible}
-      useQuotes={viewerUseQuotes}
-      hideRootName={hideRootName}
-      {...props}
-      viewer
-    />
-  );
-};
+    return (
+      <ContainerWrapper
+        collapsible={collapsible}
+        useQuotes={viewerUseQuotes}
+        hideRootName={hideRootName}
+        {...props}
+        viewer
+      />
+    );
+  },
+);
 ViewerContainer.displayName = 'ViewerContainer';
 
 export default Container;

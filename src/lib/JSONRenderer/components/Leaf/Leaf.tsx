@@ -5,9 +5,12 @@ import { wrapWithQuotes } from '../../utils/string';
 import { Label } from '../Label';
 import { Value } from '../Value';
 import { IProps } from './types';
+import { observer } from '@legendapp/state/react';
 
-const Leaf: FC<IProps> = ({ treeDescriptor, value }): JSX.Element => {
-  const { viewerUseQuotes } = useJSONRendererContextConfig();
+const Leaf: FC<IProps> = observer(({ treeDescriptor, value }): JSX.Element => {
+  const config = useJSONRendererContextConfig();
+  const viewerUseQuotes = config.viewerUseQuotes.get();
+
   return (
     <div
       className={classnames(
@@ -40,6 +43,6 @@ const Leaf: FC<IProps> = ({ treeDescriptor, value }): JSX.Element => {
       />
     </div>
   );
-};
+});
 
 export default Leaf;
