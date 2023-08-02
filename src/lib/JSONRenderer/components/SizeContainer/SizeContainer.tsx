@@ -6,7 +6,7 @@ const SizeContainer: FC<{ children: ReactNode; className?: string | boolean }> =
   children,
   className,
 }): JSX.Element => {
-  const [narrow, setNarrow] = useState<string | false>(false);
+  const [narrow, setNarrow] = useState<'narrow' | 'narrower' | false>(false);
   const ref = useRef<HTMLDivElement>(null);
   const callback = (entries: ResizeObserverEntry[]) => {
     const div = entries[0];
