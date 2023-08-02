@@ -44,7 +44,7 @@ export type TTraverseCallback = <T = unknown>(
   item: T,
   parentKey?: string,
   depth?: number,
-  parseable?: boolean,
+  nonParseable?: boolean,
 ) => T | undefined;
 
 function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null | undefined {
@@ -165,18 +165,23 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
     parentTree: TTree,
   ): In | null | undefined {
     if (isNonParseable(j)) {
-      console.warn(
-        'Non parseable to JSON content will be removed',
-        'key:',
-        parentKey,
-        'typeof',
-        typeof j,
-        'value',
-        j,
-      );
-      callback(j, parentKey, depth, true);
-      // delete invalid content
-      return undefined;
+      const value = callback(j, parentKey, depth, true);
+      if (isNonParseable(value)) {
+        console.warn(
+          'Non parseable to JSON content will be removed',
+          'key:',
+          parentKey,
+          'typeof',
+          typeof j,
+          'value',
+          j,
+        );
+
+        // delete invalid content
+        return undefined;
+      }
+      // If user decided to replace it with parseable data
+      return value;
     }
 
     if (isCircular(j, parentKey, parentTree, parentNode)) {
