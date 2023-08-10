@@ -1,21 +1,5 @@
-import lodashKeys from 'lodash/keys';
-
-/**
- * Wrapper around `Object.keys` with built in non nullish check
- */
-function keys<O, R extends (keyof O)[]>(object?: O): R {
-  return lodashKeys(object) as R;
-}
-
-type TPrimitive = null | string | number | boolean;
-function isPrimitive(test: unknown): test is TPrimitive {
-  return (
-    typeof test === 'string' ||
-    typeof test === 'number' ||
-    typeof test === 'boolean' ||
-    test === null
-  );
-}
+import { TJSONArray, TJSONObject, TJSONValue, guardIsPrimitiveValue } from '../../../types';
+import { keys } from './keys';
 
 type TNonParseable =
   | bigint
@@ -36,18 +20,21 @@ function isNonParseable(test: unknown): test is TNonParseable {
   }
 }
 
-function identity<T = unknown>(input: T): T {
-  return input;
+function identity<In = unknown, Out = unknown>(input: In): Out {
+  return input as unknown as Out;
 }
 
-export type TTraverseCallback = <T = unknown>(
-  item: T,
+export type TTraverseCallback = <In = unknown, Out = unknown>(
+  item: In,
   parentKey?: string,
   depth?: number,
   nonParseable?: boolean,
-) => T | undefined;
+) => Out | null | undefined;
 
-function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null | undefined {
+function traverse<Out extends TJSONValue, In = any>(
+  j: In,
+  callback: TTraverseCallback = identity,
+): Out | null {
   type TTree = WeakMap<object, TTreeEntry>;
   type TTreeEntry = {
     parent: TTreeEntry | null;
@@ -74,7 +61,7 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
     parentNode: In | null = null,
     subtree: TTree,
   ) => {
-    if (!isPrimitive(j) && j !== undefined) {
+    if (!guardIsPrimitiveValue(j) && j !== undefined) {
       if (parentKey === '' && depth === 0) {
         subtree.set(j as object, {
           parent: null,
@@ -111,7 +98,7 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
     parentNode: In | null = null,
   ): boolean => {
     let result = false;
-    if (!isPrimitive(item) && subtree) {
+    if (!guardIsPrimitiveValue(item) && subtree) {
       //
       let parentEntry: TTreeEntry | null | undefined = subtree.get(parentNode as object);
       let path = `${itemName}>`;
@@ -163,9 +150,9 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
     depth: number,
     parentNode: In | null = null,
     parentTree: TTree,
-  ): In | null | undefined {
+  ): Out | null | undefined {
     if (isNonParseable(j)) {
-      const value = callback(j, parentKey, depth, true);
+      const value = callback<In, Out>(j, parentKey, depth, true);
       if (isNonParseable(value)) {
         console.warn(
           'Non parseable to JSON content will be removed',
@@ -188,7 +175,7 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
       return undefined;
     }
 
-    if (isPrimitive(j)) {
+    if (guardIsPrimitiveValue(j)) {
       return callback(j, parentKey, depth);
     } else if (Array.isArray(j)) {
       addToTree(j, parentKey, depth, parentNode, parentTree);
@@ -208,11 +195,7 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
         );
       }
 
-      return callback(
-        copy.filter((u) => u !== undefined),
-        parentKey,
-        depth,
-      ) as In;
+      return callback<In, Out>(copy.filter((u) => u !== undefined) as In, parentKey, depth);
     } else {
       addToTree(j, parentKey, depth, parentNode, parentTree);
       const currentItemTree = (parentNode && parentTree?.get(parentNode)?.children) || tree;
@@ -235,41 +218,22 @@ function traverse<In>(j: In, callback: TTraverseCallback = identity): In | null 
   }
 
   // start
-  return innerTraverse(j, '', 0, null, tree);
+  const output = innerTraverse(j, '', 0, null, tree);
+
+  if (output == null) {
+    return null;
+  }
+
+  return output;
 }
 
-export function copyObject<T = unknown>(o: T, callback?: TTraverseCallback): T | null | undefined {
+export function copyObject<Out extends TJSONArray | TJSONObject, In = unknown>(
+  o: In,
+  callback?: TTraverseCallback,
+): Out | null {
   const c = callback || identity;
 
   return traverse(o, c);
 }
-
-// console.log(
-//   traverse(
-//     { a: '1', 'b.c': { c: '3', d: ['4', '5'] }, e: false },
-//     function walker(
-//       chunk: unknown,
-//       chunkKey: string | number,
-//       ownerKey: string | number,
-//       depth: number,
-//     ) {
-//       console.log(
-//         depth === 0 && ownerKey === '' ? '<ROOT>' : ownerKey,
-//         `${chunkKey}: ${chunk}`,
-//         depth,
-//       );
-
-//       if (chunk && typeof chunk === 'object' && chunk !== null && !Array.isArray(chunk)) {
-//         // already processed
-//         return Object.keys(chunk).reduce((o, key) => {
-//           const fieldName = key.replaceAll('.', '-');
-//           return { ...o, [fieldName]: (chunk as any)[key] };
-//         }, {});
-//       }
-
-//       return chunk;
-//     },
-//   ),
-// );
 
 export default traverse;

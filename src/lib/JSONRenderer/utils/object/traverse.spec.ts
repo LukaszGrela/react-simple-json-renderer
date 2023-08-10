@@ -41,11 +41,12 @@ describe('JSONRenderer', () => {
             expect(
               traverse(data, function replaceNonParseable<
                 T = unknown,
-              >(j: T, _1?: string, _2?: number, isNonParseable?: boolean): T | undefined {
+                Out = unknown,
+              >(j: T, _1?: string, _2?: number, isNonParseable?: boolean): Out | undefined {
                 if (isNonParseable) {
-                  return `Invalid content: (type: ${typeof j})` as T;
+                  return `Invalid content: (type: ${typeof j})` as Out;
                 }
-                return j;
+                return j as unknown as Out;
               }),
             ).toStrictEqual({
               hugeOne: 'Invalid content: (type: bigint)',
