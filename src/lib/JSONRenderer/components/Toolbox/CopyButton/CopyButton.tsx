@@ -15,7 +15,7 @@ const CopyButton: React.FC<Omit<IToolbarButtonProps, 'onClick' | 'icon' | 'type'
 }): JSX.Element => {
   const selector = useCallback(
     (state: TBuildTreeData<any>[EBuiltInKeys.WRAPPER]): any => {
-      const { path } = treeDescriptor;
+      const { path } = treeDescriptor || { path: '' };
       // container path
       const dataNode = get(state, path);
 

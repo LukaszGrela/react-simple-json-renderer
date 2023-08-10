@@ -1,11 +1,9 @@
-import { ReactNode, FC, useState, useRef } from 'react';
+import { FC, useState, useRef } from 'react';
 import { classnames } from '../../utils/classnames';
 import { useResizeObserver } from '../../utils/useResizeObserver';
+import { IProps } from './types';
 
-const SizeContainer: FC<{ children: ReactNode; className?: string | boolean }> = ({
-  children,
-  className,
-}): JSX.Element => {
+const SizeContainer: FC<IProps> = ({ children, className }): JSX.Element => {
   const [narrow, setNarrow] = useState<'narrow' | 'narrower' | false>(false);
   const ref = useRef<HTMLDivElement>(null);
   const callback = (entries: ResizeObserverEntry[]) => {

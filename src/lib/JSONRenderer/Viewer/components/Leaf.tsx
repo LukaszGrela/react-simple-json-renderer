@@ -23,7 +23,7 @@ export const Leaf: FC<TProps> = observer(
     const viewerUseQuotes = config.viewerUseQuotes.get();
     const hideRootName = config.hideRootName.get();
     const idLabel =
-      typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<EMPTY>';
+      typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<NO NAME>';
 
     const type: TDataType = value === null ? 'null' : (typeof value as TDataType);
 

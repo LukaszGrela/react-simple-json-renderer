@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
 import { classnames } from '~/lib/JSONRenderer/utils/classnames';
-import { useJSONRendererContextActions } from '../../../context';
+// import { useJSONRendererContextActions } from '../../../context';
 import { Button } from '../../Button';
 import SVGIcon from '../../SVGIcon/SVGIcon';
 import { IToolbarButtonProps } from '../types';
@@ -11,11 +11,11 @@ const RemoveButton: FC<Omit<IToolbarButtonProps, 'onClick' | 'icon'>> = ({
   className,
   type,
 }): JSX.Element => {
-  const { removeNode } = useJSONRendererContextActions();
+  // const { removeNode } = useJSONRendererContextActions();
 
   const handleRemove = useCallback(() => {
-    removeNode(treeDescriptor);
-  }, [removeNode, treeDescriptor]);
+    // removeNode(treeDescriptor);
+  }, []);
 
   return (
     <Button

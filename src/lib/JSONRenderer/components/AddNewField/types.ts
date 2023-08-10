@@ -5,7 +5,7 @@ export interface IProps {
   /**
    * Container node details
    */
-  treeDescriptor: TTreeDescription;
+  treeDescriptor?: TTreeDescription;
 
   /**
    * Selected data type to add new field

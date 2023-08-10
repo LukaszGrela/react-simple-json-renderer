@@ -22,7 +22,7 @@ export const ViewerContainer: FC<TProps> = observer(
     const viewerUseQuotes = config.viewerUseQuotes.get();
 
     const idLabel =
-      typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<EMPTY>';
+      typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<NO NAME>';
 
     const fieldNameId = `${parentName}.${idLabel}`;
     const isArray = guardArrayObservable(item);

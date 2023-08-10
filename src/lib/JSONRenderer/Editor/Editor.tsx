@@ -1,8 +1,10 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode } from 'react';
 import keys from 'lodash/keys';
 import { TEditor } from './types';
 import { useJSONRendererContext, TTree, JSONRendererActionsProvider } from '../context';
 import { Container, Input, NullElement } from '../components';
+import { Element } from './components';
+import { observer } from '@legendapp/state/react';
 
 const buildComponents = (tree: TTree, source: any): ReactNode => {
   function traverse(tree?: TTree) {
@@ -34,20 +36,18 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
   return traverse(tree);
 };
 
-const Editor: TEditor = (): JSX.Element => {
-  // const context = useJSONRendererContext();
-  const components = '@TODO: Implement me';
-  // const components = useMemo(
-  //   () => buildComponents(context.$__tree, context.$__wrapper),
-  //   [context.$__tree, context.$__wrapper],
-  // );
+const Editor: TEditor = observer((): JSX.Element => {
+  const context = useJSONRendererContext();
+
   return (
     <JSONRendererActionsProvider>
       <div className='Editor'>
-        <div className='Editor_treeBuilder'>{components}</div>
+        <div className='Editor_treeBuilder'>
+          {<Element item={context} className='editor root' />}
+        </div>
       </div>
     </JSONRendererActionsProvider>
   );
-};
+});
 
 export default React.memo(Editor);

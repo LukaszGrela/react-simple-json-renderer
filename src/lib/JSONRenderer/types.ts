@@ -65,4 +65,5 @@ export type TElement = {
   className?: string;
   parentName?: string;
   parentType?: TDataType;
+  path?: string;
 };
