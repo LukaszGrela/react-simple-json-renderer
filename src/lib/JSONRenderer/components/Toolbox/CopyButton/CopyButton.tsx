@@ -1,7 +1,5 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import get from 'lodash/get';
-import { EBuiltInKeys, TBuildTreeData, useSelector } from '~/lib/JSONRenderer/context';
 import { classnames } from '~/lib/JSONRenderer/utils/classnames';
 import unescapeObjectsFieldName from '~/lib/JSONRenderer/utils/object/unescapeObjectsFieldName';
 import { Button } from '../../Button';
@@ -9,24 +7,13 @@ import { SVGIcon } from '../../SVGIcon';
 import { IToolbarButtonProps } from '../types';
 
 const CopyButton: React.FC<Omit<IToolbarButtonProps, 'onClick' | 'icon' | 'type'>> = ({
-  treeDescriptor,
   title,
   className,
+  item,
 }): JSX.Element => {
-  const selector = useCallback(
-    (state: TBuildTreeData<any>[EBuiltInKeys.WRAPPER]): any => {
-      const { path } = treeDescriptor || { path: '' };
-      // container path
-      const dataNode = get(state, path);
-
-      return dataNode;
-    },
-    [treeDescriptor],
-  );
-
   const [copied, setCopied] = useState<true | false | null>(null);
 
-  const data = useSelector(selector);
+  const data = item.peek();
   const onClick = useCallback(async () => {
     try {
       const output = JSON.stringify(unescapeObjectsFieldName(data));
