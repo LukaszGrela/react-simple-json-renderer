@@ -35,12 +35,12 @@ const buildComponents = (tree: TTree, source: any): ReactNode => {
 };
 
 const Editor: TEditor = (): JSX.Element => {
-  const context = useJSONRendererContext();
-
-  const components = useMemo(
-    () => buildComponents(context.$__tree, context.$__wrapper),
-    [context.$__tree, context.$__wrapper],
-  );
+  // const context = useJSONRendererContext();
+  const components = '@TODO: Implement me';
+  // const components = useMemo(
+  //   () => buildComponents(context.$__tree, context.$__wrapper),
+  //   [context.$__tree, context.$__wrapper],
+  // );
   return (
     <JSONRendererActionsProvider>
       <div className='Editor'>

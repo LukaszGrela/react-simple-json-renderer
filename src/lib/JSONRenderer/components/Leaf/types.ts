@@ -1,6 +1,8 @@
-import { TTreeDescription } from '~/lib/JSONRenderer/context';
+import { TJSONPrimitiveValue, TDataType } from '~/lib/types';
 
 export interface IProps {
-  treeDescriptor: TTreeDescription;
-  value: string;
+  id?: string;
+  level?: number;
+  value: TJSONPrimitiveValue;
+  parentType?: TDataType;
 }

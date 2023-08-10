@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useObservable } from '@legendapp/state/react';
 import { EBuiltInKeys, IProps, TAction, TBuildTreeData } from './types';
 import { useJSONRendererReducer } from './reducer';
+import { TJSONValue } from '../../types';
+import { Observable } from '@legendapp/state';
 
-const JSONRendererContext = React.createContext<TBuildTreeData<any> | undefined>(undefined);
+const JSONRendererContext = React.createContext<Observable<TJSONValue> | undefined>(undefined);
 const JSONRendererContextDispatch = React.createContext<React.Dispatch<TAction> | undefined>(
   undefined,
 );
 
-export function JSONRendererProvider<T>({ children, treeData, onChange }: IProps<T>): JSX.Element {
-  const [state, dispatch] = useJSONRendererReducer<T>(treeData, onChange);
+export function JSONRendererProvider<T>({
+  children,
+  treeData,
+  onChange,
+  data,
+}: IProps<T>): JSX.Element {
+  const state = useObservable(data);
+  useEffect(() => {
+    state.set(data);
+  }, [state, data]);
+
+  const [state2, dispatch] = useJSONRendererReducer<T>(
+    treeData || ({} as TBuildTreeData<T>),
+    onChange,
+  );
 
   return (
     <JSONRendererContext.Provider value={state}>
@@ -19,7 +35,7 @@ export function JSONRendererProvider<T>({ children, treeData, onChange }: IProps
   );
 }
 
-export function useJSONRendererContext<T>(): TBuildTreeData<T> {
+export function useJSONRendererContext(): Observable<TJSONValue> {
   const context = React.useContext(JSONRendererContext);
   if (context === undefined) {
     throw new Error('useJSONRendererContext must be used within a JSONRendererContext');
@@ -37,12 +53,12 @@ export function useJSONRendererContextDispatch() {
   return context;
 }
 
-type TUseSelectorCallback<R = any> = (state: TBuildTreeData<any>[EBuiltInKeys.WRAPPER]) => R;
+type TUseSelectorCallback<R = any> = (state: R) => R;
 export function useSelector<R = any>(callback: TUseSelectorCallback<R>): R {
-  const context = React.useContext(JSONRendererContext);
+  const context: Observable<TJSONValue> | undefined = React.useContext(JSONRendererContext);
   if (context === undefined) {
     throw new Error('useSelector must be used within a JSONRendererContext');
   }
 
-  return callback(context[EBuiltInKeys.WRAPPER]);
+  return callback(context as any);
 }

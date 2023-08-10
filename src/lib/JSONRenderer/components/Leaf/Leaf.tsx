@@ -1,45 +1,42 @@
 import { FC } from 'react';
-import { useJSONRendererContextConfig } from '../../context';
+import { EBuiltInKeys, useJSONRendererContextConfig } from '../../context';
 import { classnames } from '../../utils/classnames';
 import { wrapWithQuotes } from '../../utils/string';
 import { Label } from '../Label';
 import { Value } from '../Value';
 import { IProps } from './types';
 import { observer } from '@legendapp/state/react';
+import { TDataType } from '../../../types';
 
-const Leaf: FC<IProps> = observer(({ treeDescriptor, value }): JSX.Element => {
+const Leaf: FC<IProps> = observer(({ id, level, value, parentType }: IProps): JSX.Element => {
   const config = useJSONRendererContextConfig();
   const viewerUseQuotes = config.viewerUseQuotes.get();
+  const hideRootName = config.hideRootName.get();
+  const idLabel =
+    typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<EMPTY>';
+  const type: TDataType = value === null ? 'null' : (typeof value as TDataType);
 
   return (
-    <div
-      className={classnames(
-        'Element',
-        'Leaf',
-        'view',
-        treeDescriptor.type,
-        !!treeDescriptor.level && `level-${treeDescriptor.level}`,
-      )}
-    >
-      <Label fieldName={treeDescriptor.key}>
+    <div className={classnames('Leaf', 'view', type, !!level && `level-${level}`)}>
+      <Label fieldName={idLabel}>
         {(escapedLabel) =>
-          treeDescriptor.parentType !== 'array' ? (
+          (hideRootName && id === EBuiltInKeys.ROOT) || parentType == 'array' ? (
+            <span className='wrapper' />
+          ) : (
             <span className='wrapper'>{`${wrapWithQuotes(
               escapedLabel,
               'string',
               viewerUseQuotes,
             )}:`}</span>
-          ) : null
+          )
         }
       </Label>
       <Value
         editable={false}
-        dataType={treeDescriptor.type}
-        value={`${wrapWithQuotes(
-          value,
-          treeDescriptor.type,
-          viewerUseQuotes || treeDescriptor.type === 'string',
-        )}${treeDescriptor.parentType === 'array' ? ',' : ''}`}
+        dataType={type}
+        value={`${wrapWithQuotes(`${value}`, type, viewerUseQuotes || type === 'string')}${
+          parentType === 'array' ? ',' : ''
+        }`}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { TDataType } from '../../types';
+import { TDataType, TJSONValue } from '../../types';
 
 export enum EBuiltInKeys {
   ROOT = '$__root',
@@ -18,7 +18,8 @@ export enum EBuiltInKeys {
 }
 
 export interface IProps<T> {
-  treeData: TBuildTreeData<T>;
+  data: TJSONValue;
+  treeData?: TBuildTreeData<T>;
   children: ReactNode;
   onChange?: TCallback;
 }

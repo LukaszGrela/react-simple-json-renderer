@@ -8,6 +8,7 @@ import { IProps } from './types';
 import { Editor } from './Editor';
 import { Viewer } from './Viewer';
 import { SizeContainer } from './components/SizeContainer';
+import traverse from './utils/object/traverse';
 
 export const defaultConfig: IJSONRendererContextConfig = {
   collapsible: true,
@@ -16,14 +17,15 @@ export const defaultConfig: IJSONRendererContextConfig = {
 };
 function JSONRenderer<T = any>({ children, data, onChange, config }: IProps<T>) {
   // build initial data tree
-  const treeData = buildTree(data);
+  const tree = traverse(data);
+
   const configuration = {
     ...defaultConfig,
     ...config,
   };
   return (
     <JSONRendererConfigProvider {...configuration}>
-      <JSONRendererProvider treeData={treeData} onChange={onChange}>
+      <JSONRendererProvider data={tree} onChange={onChange}>
         <SizeContainer className='JSONRenderer'>{children}</SizeContainer>
       </JSONRendererProvider>
     </JSONRendererConfigProvider>
