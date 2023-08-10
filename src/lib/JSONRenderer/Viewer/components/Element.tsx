@@ -20,13 +20,9 @@ export const Element: FC<TProps> = ({
   id = EBuiltInKeys.ROOT,
   parentName = EBuiltInKeys.ROOT,
 }: TProps) => {
-  // const peeked = item.peek();
-  // const idLabel =
-  //   typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<EMPTY>';
-
   if (guardPrimitiveObservable(item)) {
     // return leaf node
-    return <Leaf className='Element' item={item} id={id} parentName={parentName} />;
+    return <Leaf className='Element' item={item} id={id} parentName={parentName} level={level} />;
   } else if (guardObjectObservable(item) || guardArrayObservable(item)) {
     // return container
     return (

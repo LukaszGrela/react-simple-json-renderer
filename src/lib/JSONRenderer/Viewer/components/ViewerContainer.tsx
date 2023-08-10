@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { FC } from 'react';
 import { For, observer } from '@legendapp/state/react';
 import { TElement, TForItem, guardArrayObservable } from '../../types';
 import { classnames } from '../../utils/classnames';
@@ -8,6 +8,7 @@ import { Label } from '../../components';
 import { wrapWithQuotes } from '../../utils/string';
 import { keys } from '../../utils/object/keys';
 import { CollapseButton } from '../../components/CollapseButton';
+import { CollapseContainer } from '../../components/CollapseContainer';
 
 type TProps = TElement &
   TForItem<TJSONArray | TJSONObject> & {
@@ -78,48 +79,3 @@ export const ViewerContainer: FC<TProps> = observer(
     );
   },
 );
-
-type TFunctionProps = {
-  isCollapsed: boolean;
-  collapsible: boolean;
-  toggleCollapse: () => void;
-  setCollapsed: (state: boolean) => void;
-};
-type TFunctionChildren = (props: TFunctionProps) => ReactNode | undefined;
-const guardFunctionChildren = (test: unknown): test is TFunctionChildren => {
-  return !!test && typeof test === 'function';
-};
-const CollapseContainer: FC<{
-  initialCollapsed?: boolean;
-  className?: string;
-  children?: TFunctionChildren | ReactNode | undefined;
-}> = ({ className, initialCollapsed, children }) => {
-  const config = useJSONRendererContextConfig();
-  const collapsible = config.collapsible.get();
-  const [isCollapsed, setIsCollapsed] = useState(!!initialCollapsed);
-
-  const toggleCollapse = useCallback(() => {
-    setIsCollapsed((state) => !state);
-  }, []);
-
-  const setCollapsed = useCallback((state: boolean): void => {
-    setIsCollapsed(state);
-  }, []);
-
-  const props: TFunctionProps = useMemo(
-    () => ({
-      isCollapsed,
-      collapsible,
-      toggleCollapse,
-      setCollapsed,
-    }),
-    [collapsible, isCollapsed, setCollapsed, toggleCollapse],
-  );
-
-  return (
-    <div className={classnames(className, isCollapsed && 'collapsed')}>
-      {!isCollapsed && !guardFunctionChildren(children) && children}
-      {guardFunctionChildren(children) && children(props)}
-    </div>
-  );
-};
