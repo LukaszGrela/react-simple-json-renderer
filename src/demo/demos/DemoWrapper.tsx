@@ -1,12 +1,7 @@
 import { FC, ReactNode, useState } from 'react';
 import { defaultConfig } from '~/lib/JSONRenderer';
 import { SVGIcon } from '~/lib/JSONRenderer/components/SVGIcon';
-import { IJSONRendererContextConfig } from '~/lib/JSONRenderer/context';
-
-type TParams = {
-  useEditor: boolean;
-  useViewer: boolean;
-} & IJSONRendererContextConfig;
+import { TParams } from './types';
 
 export const DemoWrapper: FC<{
   children: (params: TParams) => ReactNode;

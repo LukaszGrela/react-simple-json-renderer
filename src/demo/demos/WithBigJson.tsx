@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { JSONRenderer } from '~/lib';
-import { DemoWrapper } from './DemoWrapper';
+import { TParams } from './types';
 
 const bigjson = {
   name: 'react-json-editor-viewer-ts',
@@ -191,15 +191,11 @@ const bigjson = {
   },
 };
 
-export const WithBigJson: FC = (): JSX.Element => {
+export const WithBigJson: FC<TParams> = ({ useEditor, useViewer, ...config }): JSX.Element => {
   return (
-    <DemoWrapper>
-      {({ useEditor, useViewer, ...config }) => (
-        <JSONRenderer data={bigjson} config={config} onChange={console.log}>
-          {useEditor && <JSONRenderer.Editor />}
-          {useViewer && <JSONRenderer.Viewer />}
-        </JSONRenderer>
-      )}
-    </DemoWrapper>
+    <JSONRenderer data={bigjson} config={config} onChange={console.log}>
+      {useEditor && <JSONRenderer.Editor />}
+      {useViewer && <JSONRenderer.Viewer />}
+    </JSONRenderer>
   );
 };

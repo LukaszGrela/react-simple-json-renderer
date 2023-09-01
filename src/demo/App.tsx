@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { WithEmptyObject } from './demos/WithEmptyObject';
 import { WithEmptyArray } from './demos/WithEmptyArray';
 import { WithBigJson } from './demos/WithBigJson';
+import { DemoWrapper } from './demos/DemoWrapper';
 
 import '~/lib/styles.scss';
 import './App.css';
@@ -49,9 +50,15 @@ const App: FC = () => {
         </ul>
       </menu>
       <main>
-        {demo === 0 && <WithEmptyObject />}
-        {demo === 1 && <WithEmptyArray />}
-        {demo === 2 && <WithBigJson />}
+        <DemoWrapper>
+          {(state) => (
+            <>
+              {demo === 0 && <WithEmptyObject {...state} />}
+              {demo === 1 && <WithEmptyArray {...state} />}
+              {demo === 2 && <WithBigJson {...state} />}
+            </>
+          )}
+        </DemoWrapper>
       </main>
       <footer>
         <a href='https://greladesign.co/blog' target='_blank' rel='noreferrer'>
