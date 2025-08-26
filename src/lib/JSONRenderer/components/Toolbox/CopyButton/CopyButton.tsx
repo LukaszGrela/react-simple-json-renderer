@@ -13,7 +13,7 @@ const CopyButton: React.FC<Omit<IToolbarButtonProps, 'onClick' | 'icon' | 'type'
 }): JSX.Element => {
   const [copied, setCopied] = useState<true | false | null>(null);
 
-  const data = item.peek();
+  const data = item?.peek();
   const onClick = useCallback(async () => {
     try {
       const output = JSON.stringify(unescapeObjectsFieldName(data));

@@ -14,9 +14,7 @@ export const Leaf: FC<TProps> = observer(
     className,
     parentType,
     id = EBuiltInKeys.ROOT,
-    level = 0,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    parentName = EBuiltInKeys.ROOT,
+    level = 0 /*, parentName = EBuiltInKeys.ROOT */,
   }: TProps) => {
     const value = item.get();
     const config = useJSONRendererContextConfig();

@@ -17,7 +17,7 @@ const AddNewField: FC<IProps> = ({
   cancel,
   initialFieldName = '',
   fieldNameEditable = true,
-}): JSX.Element => {
+}) => {
   const [error, setError] = useState('');
   const [fieldName, setFieldName] = useState(initialFieldName);
 
@@ -32,12 +32,14 @@ const AddNewField: FC<IProps> = ({
 
   const handleNewItem = useCallback(() => {
     const field = escapeFieldName(fieldName);
-    if (!field && treeDescriptor.type === 'object') {
-      setError("Field name can't be empty.");
-    } else {
-      setError('');
-      const newValue = selectedType !== 'array' && selectedType !== 'object' ? value : undefined;
-      addNode(treeDescriptor, selectedType, field, newValue);
+    if (treeDescriptor) {
+      if (!field && treeDescriptor.type === 'object') {
+        setError("Field name can't be empty.");
+      } else {
+        setError('');
+        const newValue = selectedType !== 'array' && selectedType !== 'object' ? value : undefined;
+        addNode(treeDescriptor, selectedType, field, newValue);
+      }
     }
   }, [fieldName, treeDescriptor, selectedType, addNode, value]);
 
@@ -46,7 +48,7 @@ const AddNewField: FC<IProps> = ({
     setValue(type === 'string' ? '' : JSON.stringify(defaultValueByType(type)));
   }, []);
 
-  const fieldNameId = `${treeDescriptor.path}-field-name`;
+  const fieldNameId = `${treeDescriptor?.path}-field-name`;
   const handleFieldNameOnChange = useCallback(({ target }: ChangeEvent<HTMLInputElement>) => {
     setFieldName(target.value);
   }, []);
@@ -56,7 +58,7 @@ const AddNewField: FC<IProps> = ({
     setAutoFocus(firstFocusedItemRef.current);
   }, []);
 
-  return (
+  return treeDescriptor ? (
     <div className={classnames('Element', 'Leaf', 'AddNewField', `level-${treeDescriptor.level}`)}>
       <span
         className={classnames('Value', fieldNameEditable && 'Value-editable', !!error && 'invalid')}
@@ -114,7 +116,7 @@ const AddNewField: FC<IProps> = ({
         />
       </Toolbox>
     </div>
-  );
+  ) : null;
 };
 
 export default AddNewField;

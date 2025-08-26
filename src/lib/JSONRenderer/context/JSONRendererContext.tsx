@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useObservable } from '@legendapp/state/react';
-import { EBuiltInKeys, IProps, TAction, TBuildTreeData } from './types';
+import { IProps, TAction, TBuildTreeData } from './types';
 import { useJSONRendererReducer } from './reducer';
 import { TJSONValue } from '../../types';
 import { Observable } from '@legendapp/state';
@@ -21,7 +21,8 @@ export function JSONRendererProvider<T>({
     state.set(data);
   }, [state, data]);
 
-  const [state2, dispatch] = useJSONRendererReducer<T>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_state2, dispatch] = useJSONRendererReducer<T>(
     treeData || ({} as TBuildTreeData<T>),
     onChange,
   );

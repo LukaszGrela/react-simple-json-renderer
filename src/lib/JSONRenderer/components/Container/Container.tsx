@@ -8,13 +8,10 @@ import { TypeSelector } from '../TypeSelector';
 import { TDataType } from '~/lib/types';
 import { Label } from '../Label';
 import { AddNewItem } from '../AddNewItem';
-import { RemoveButton } from '../Toolbox/RemoveButton';
 import { AddNewField } from '../AddNewField';
 import { wrapWithQuotes } from '../../utils/string';
 import { CollapseButton } from '../CollapseButton';
 import SVGIcon from '../SVGIcon/SVGIcon';
-import { CopyButton } from '../Toolbox/CopyButton';
-import { unescapeFieldName } from '../../utils/fieldName';
 import { observer } from '@legendapp/state/react';
 
 const Container: FC<IProps> = observer(({ type, treeDescriptor, children }): JSX.Element => {
@@ -69,19 +66,19 @@ const Container: FC<IProps> = observer(({ type, treeDescriptor, children }): JSX
                 title={title}
                 icon={<SVGIcon icon='add' />}
               />
-              <CopyButton
+              {/*               <CopyButton
                 title={
                   treeDescriptor.key === EBuiltInKeys.ROOT
                     ? 'Copy entire object'
                     : `Copy ${unescapeFieldName(treeDescriptor.key)} node`
                 }
                 treeDescriptor={treeDescriptor}
-              />
+              /> */}
             </>
           )}
-          {!(treeDescriptor.key === EBuiltInKeys.ROOT && treeDescriptor.level === 0) && (
+          {/*           {!(treeDescriptor.key === EBuiltInKeys.ROOT && treeDescriptor.level === 0) && (
             <RemoveButton treeDescriptor={treeDescriptor} />
-          )}
+          )} */}
         </Toolbox>
       }
     >

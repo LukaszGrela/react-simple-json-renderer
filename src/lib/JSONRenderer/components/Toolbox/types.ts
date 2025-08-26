@@ -5,5 +5,5 @@ import { TJSONValue } from '~/lib/types';
 
 export interface IToolbarButtonProps extends IButtonProps {
   treeDescriptor?: TTreeDescription;
-  item: Observable<TJSONValue>;
+  item: Observable<TJSONValue> | null;
 }

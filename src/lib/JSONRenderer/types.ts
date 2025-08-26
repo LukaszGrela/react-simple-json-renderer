@@ -66,4 +66,5 @@ export type TElement = {
   parentName?: string;
   parentType?: TDataType;
   path?: string;
+  parentNode?: Observable<TJSONValue>;
 };

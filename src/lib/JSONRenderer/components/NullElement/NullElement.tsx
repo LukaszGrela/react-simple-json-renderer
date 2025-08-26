@@ -55,7 +55,7 @@ const NullElement: FC<IProps<any>> = ({ treeDescriptor }): JSX.Element => {
       <Label fieldName={treeDescriptor.key} />
       <Value editable={false} dataType='null' value={'null'} />
       <Toolbox>
-        <RemoveButton treeDescriptor={treeDescriptor} />
+        <RemoveButton treeDescriptor={treeDescriptor} item={null} />
         <Button
           className={'negative'}
           type={'button'}

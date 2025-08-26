@@ -1,5 +1,4 @@
 import {
-  buildTree,
   IJSONRendererContextConfig,
   JSONRendererConfigProvider,
   JSONRendererProvider,

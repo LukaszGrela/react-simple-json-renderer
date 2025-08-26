@@ -74,7 +74,7 @@ const Input: FC<IProps<any>> = ({ dataPathRef, treeDescriptor }) => {
         onChange={handleOnChange}
       />
       <Toolbox>
-        <RemoveButton treeDescriptor={treeDescriptor} />
+        <RemoveButton treeDescriptor={treeDescriptor} item={null} />
         <Button
           className={'positive'}
           type={'button'}

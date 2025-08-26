@@ -2,7 +2,6 @@ import { ChangeEvent, FC, useCallback, useLayoutEffect, useRef, useState } from 
 import { classnames } from '../../utils/classnames';
 import { escapeFieldName } from '../../utils/fieldName';
 import { setAutoFocus } from '../../utils/setAutoFocus';
-import { useJSONRendererContextActions } from '../../context';
 import { IProps } from './types';
 import { Button } from '../Button';
 import { Toolbox } from '../Toolbox';
@@ -16,7 +15,7 @@ const AddNewItem: FC<IProps> = ({ treeDescriptor }): JSX.Element => {
   const [selectedType, setSelectedType] = useState<TDataType>('string');
   const title = `Add New ${treeDescriptor?.type === 'array' ? 'Item' : 'Field'}`;
 
-  const { addNode } = useJSONRendererContextActions();
+  // const { addNode } = useJSONRendererContextActions();
 
   const handleNewItem = useCallback(() => {
     const field = escapeFieldName(fieldName);

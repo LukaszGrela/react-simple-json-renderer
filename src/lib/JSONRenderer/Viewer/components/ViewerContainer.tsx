@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { For, observer } from '@legendapp/state/react';
-import { TElement, TForItem, guardArrayObservable } from '../../types';
+import { TElement, TForItem } from '../../types';
 import { classnames } from '../../utils/classnames';
 import { TJSONArray, TJSONObject, TJSONValue } from '../../../types';
 import { EBuiltInKeys, useJSONRendererContextConfig } from '../../context';
@@ -16,6 +16,7 @@ type TProps = TElement &
   };
 export const ViewerContainer: FC<TProps> = observer(
   ({ id, className, level = 0, item, parentName, parentType, ForItemComponent }) => {
+    const data = item.get();
     const config = useJSONRendererContextConfig();
     const collapsible = config.collapsible.get();
     const hideRootName = config.hideRootName.get();
@@ -25,8 +26,8 @@ export const ViewerContainer: FC<TProps> = observer(
       typeof id === 'number' || (typeof id === 'string' && id !== '') ? `${id}` : '<NO NAME>';
 
     const fieldNameId = `${parentName}.${idLabel}`;
-    const isArray = guardArrayObservable(item);
-    const hasChildren = isArray ? item.length > 0 : keys(item.peek()).length > 0;
+    const isArray = Array.isArray(data);
+    const hasChildren = isArray ? data.length > 0 : keys(data).length > 0;
 
     return (
       <CollapseContainer
